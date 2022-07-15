@@ -4,7 +4,12 @@
 board
 	2d array player tiles
 	2d array board tiles and modifiers
-
+		First letter D or T for double, triple
+		second letter L or W for letter or word 
+		a return of 'DW' means double the word
+		all other indexes blank text
+		getboard returns the board of tiles as a 2d array
+			15x15
 player
 	player number
 	tile array --tiles available
