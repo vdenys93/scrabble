@@ -23,4 +23,3 @@ class TileBag:
 
     def get_random_tile(self):
         return self._tiles_in_bag.pop(random(len(self._tiles_in_bag)))
-

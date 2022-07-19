@@ -28,7 +28,7 @@ class Board:
                                             , [line_11], [line_12], [line_13], [line_14], [line_15]]
 
     def place_tile(self, tile_to_add: Tile, x_y: tuple):
-        self.board[x_y[1],x_y[0]]
+        self.board[x_y[1],x_y[0]]=tile_to_add
 
     def get_board(self):
         return self._board
