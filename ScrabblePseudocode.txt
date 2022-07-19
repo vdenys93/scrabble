@@ -1,10 +1,14 @@
-
 **Objects**
 
 board
 	2d array player tiles
 	2d array board tiles and modifiers
-
+		First letter D or T for double, triple
+		second letter L or W for letter or word 
+		a return of 'DW' means double the word
+		all other indexes blank text
+		getboard returns the board of tiles as a 2d array
+			15x15
 player
 	player number
 	tile array --tiles available
@@ -31,7 +35,8 @@ tile
 
 PlaceTile()
 	if blank then "enter letter"
-  stores currently placed tiles until finish word called
+  	stores currently placed tiles until finish word called
+	get_stored_tiles()
 
 submitWord(board) return score from placement --submit word and return score if valid
 		if
@@ -41,11 +46,11 @@ submitWord(board) return score from placement --submit word and return score if 
 
 calculate_word_score(board, tiles)
 
-
-isWordValid(board)
-    if first turn, must be cover center tile
-    does word connect with other words
-		dictionary.checkword() --check intersecting words too
+Challenge()
+	isWordValid(board)
+   		if first turn, must be cover center tile
+    	does word connect with other words
+			dictionary.checkword() --check intersecting words too
 
 
 dictionary()
@@ -80,6 +85,19 @@ turnloop()
 		player.score(submitword())
 
   next player
+
+  Controller()
+	board board
+	list players--number determined by input
+	Tilebag 
+	last_words--somewhere
+	timer--somewhere
+	sumPoints()
+	PlaceTile()
+	submitword(placetile, board)
+	Challenge()
+	Discard()
+
 
 
 **Main**
