@@ -8,6 +8,7 @@ class Scrabble:
         self.screen = pygame.display.set_mode((1200,800))
         pygame.display.set_caption("Scrabble")
 
+        # Set background color to gray
         self.bg_color = (230, 230, 230)
 
     def run_game(self):
