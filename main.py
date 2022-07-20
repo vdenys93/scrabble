@@ -4,7 +4,8 @@ from scrabble.constants import DISPLAY_WIDTH, DISPLAY_HEIGHT, TAN
 from scrabble.board import Board
 
 FPS = 60
-WIN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+WIN = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT),
+                                 pygame.RESIZABLE)
 pygame.display.set_caption("Scrabble")
 
 pygame.init()
