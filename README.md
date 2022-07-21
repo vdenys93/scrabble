@@ -20,3 +20,27 @@ and Double & Triple Letter Scores.  Board also has a place holder for the star i
 Coordinate system on board is tested and working.  Board[row][col]
 
 Currently, adjustments are still made through the constants.py file
+
+Added by Alan:
+7/20/2022
+
+Added Game Class for game mechanics
+Began game mechanic for mouse tile movement
+
+board.py:
+Added get_tile method
+Added create_board method
+Added move method
+Added place for player tiles - not sure how this will work with the grid system.  Needs tested when tiles are ready.
+
+game.py:
+Added update()
+Added reset()
+Added select() - to select tiles
+Added _move()
+Added change_turn()
+
+tiles.py:
+Added calc_position()
+Added draw_tile()
+Added move()
