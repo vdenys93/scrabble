@@ -1,5 +1,6 @@
-import pygame, sys
+import pygame
 from pygame.locals import *
+
 
 # Colors by RGB
 RED = (255, 0, 0)
@@ -49,7 +50,7 @@ VALID_MOVES = ['ST', 'TW', 'DW', 'TL', 'DL', '__']
 
 # Tile constants
 TILE_SIZE = SQUARE_SIZE-4
-# TILE_FONT_OBJ = pygame.font.Font('freesansbold.ttf', 32)  # Parameters: Font and font size
+# TILE_FONT = pygame.font.Font('freesansbold.ttf', 32)  # Parameters: Font and font size
 
 TILE_BAG_COUNTS = {'A': 9, 'B': 2, 'C': 2, 'D': 4, 'E': 12, 'F': 2, 'G': 3, 'H': 2, 'I': 9, 'J': 1, 'K': 1, 'L': 4,
                    'M': 2, 'N': 6, 'O': 8, 'P': 2, 'Q': 1, 'R': 6, 'S': 4, 'T': 6, 'U': 4, 'V': 2, 'W': 2, 'X': 1,
@@ -63,3 +64,6 @@ TILE_SCORES = {'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, '
 # Player constants
 MAX_PLAYERS = 2    # Max players can be changed to a user entry later.
 MAX_TILES_PLAYABLE = 7
+# PLAYER_NAME_FONT = pygame.font.Font('freesansbold.ttf', 32)
+PLAYER_TEXTX, PLAYER_TEXTY = 150, 10
+
