@@ -25,16 +25,13 @@ class Board:
     def draw_tile_holder(self, win, player: player.Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
 
-        if player.tile_array():
-            for idy, tile in player.tile_array:
+        if player is not None and len(player.tile_array) > 0:
+            for idy, tile in enumerate(player.tile_array):
                 if tile.is_tile():
                     pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y + (idy * TILE_SIZE), HOLDER_SIZE_X, HOLDER_SIZE_Y))
                     font = pygame.font.Font('freesansbold.ttf', 16)
                     TW_tiles = font.render(tile.get_letter(), True, BLACK)
                     win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y + (idy * TILE_SIZE), HOLDER_SIZE_X, HOLDER_SIZE_Y))
-
-
-
 
 
     def draw(self, win, player):
@@ -68,7 +65,7 @@ class Board:
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
                     pygame.draw.rect(win, LT_MAGENTA, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
                     font = pygame.font.Font('freesansbold.ttf', 16)
-                    ST_tiles = font.render("E", True, BLACK)
+                    ST_tiles = font.render("ST", True, BLACK)
                     win.blit(ST_tiles, (BOARD_OFFSET_X + 8+ (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                     font = pygame.font.Font('freesansbold.ttf', 6)
                     E_tiles = font.render("1", True, BLACK)

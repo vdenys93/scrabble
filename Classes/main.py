@@ -29,7 +29,9 @@ def main():
     print("anything")
     run = True
     clock = pygame.time.Clock()
+
     game_controller = controller.Controller(win)
+    game_controller.start(win)
 
     while run:
         clock.tick(FPS)
