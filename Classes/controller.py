@@ -13,7 +13,7 @@ class Controller:
         self._tile_bag = TileBag()
         self._placed_tiles = {}
         self.win = win
-        self.current_player = 0
+        self.current_players_turn = 0
 
 
     def place_Tile(self, xy: tuple, tile: Tile):
@@ -55,8 +55,8 @@ class Controller:
                             user_text = user_text[:-1]
                         elif event.key == pygame.K_KP_ENTER:
                             entered = True
-                    else:
-                        user_text += event.unicode
+                        else:
+                            user_text += event.unicode
 
                 pygame.draw.rect(win, WHITE, input_rect)
                 text_surface = input_font.render(user_text, True, BLACK)
@@ -109,10 +109,12 @@ class Controller:
         #get_player_count(win)
         self.start_pass_out_tiles()
 
+    def player_turn(self):
+
 
     def update(self):
 
-        self._board.draw(self.win, self._players[self.current_player])
+        self._board.draw(self.win, self._players[self.current_players_turn])
 
 
     # Draw(): TODO add all draw methods
