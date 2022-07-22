@@ -7,7 +7,7 @@ class Player:
     PLAYER_NUM = (1,2,3,4)
 
     """Player class"""
-    def __init__(self, nick_name, player_num, turn_count, turn_since_last_placement, score):
+    def __init__(self, nick_name, player_num, turn_count=0, turn_since_last_placement=0, score=0):
         name_characters = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'-")
         if not (name_characters.issuperset(nick_name)):
             raise ValueError

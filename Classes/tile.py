@@ -1,14 +1,11 @@
-
+from constants import *
 
 class Tile:
 
 
     def __init__(self, character=''):
-        self.tile_values = {'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, 'I': 1, 'J': 8, 'K': 5, 'L': 1
-            , 'M': 3, 'N': 1, 'O': 1, 'P': 3, 'Q': 10, 'R': 1, 'S': 1, 'T': 1, 'U': 1, 'V': 4, 'W': 4, 'X': 8, 'Y': 4,
-                       'Z': 10, '': 0}
         self._letter = character
-        self._points = self.tile_values[character]
+        self._points = TILE_SCORES[character]
 
     def get_points(self):
         return self._points
@@ -18,4 +15,18 @@ class Tile:
 
     def set_letter(self, character):
         self._letter = character
-        self._points = self.tile_values[character]
+        self._points = TILE_SCORES[character]
+
+
+    def is_tile(self) -> bool:
+        if self._letter == '':
+            return False
+        return True
+
+    def draw(self, xy: tuple, win):
+        x = SQUARE_SIZE * xy[0] + SQUARE_SIZE // 2
+        y = SQUARE_SIZE * xy[1] + SQUARE_SIZE // 2
+        pygame.draw.rect(win, BLACK, (100 + (x * SQUARE_SIZE), 150 + (y * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
+        font = pygame.font.Font('freesansbold.ttf', 26)
+        TW_tiles = font.render(self._letter, True, BLACK)
+        win.blit(TW_tiles, (108 + (x * SQUARE_SIZE), 164 + (y * SQUARE_SIZE)))
