@@ -1,3 +1,5 @@
+import tile
+
 """
 Author:Team 4
 Program:player.py
@@ -24,3 +26,11 @@ class Player:
         self.turn_count = turn_count
         self.turn_since_last_placement = turn_since_last_placement
         self.score = score
+        self.tile_array = [tile.Tile()]
+
+    def tile_count(self) -> int:
+        non_null_tiles = 0
+        for t in self.tile_array:
+            if t.is_tile():
+                non_null_tiles += 1
+        return non_null_tiles

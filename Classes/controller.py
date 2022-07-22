@@ -9,10 +9,11 @@ from scrabble.constants import *
 class Controller:
     def __init__(self, win):
         self._board = Board()
-        self._player = []
+        self._players = [Player("testone", 1), Player("testtwo", 2)]
         self._tile_bag = TileBag()
         self._placed_tiles = {}
         self.win = win
+        self.current_player = 0
 
     def place_Tile(self, xy: tuple, tile: Tile):
         self._placed_tiles[xy] = tile
@@ -43,11 +44,20 @@ class Controller:
 
         print("How many players?") #TODO DRAW OUTPUT
         for p in range(int(input())):
-            self._player.append()
+            self._players.append()
+
+    def start_pass_out_tiles(self):
+        for player in self._players:
+            player.tile_array = self._tile_bag.get_tiles(7)
+
 
 
     def update(self):
-        self._board.draw(self.win)
+
+
+        self._board.draw(self.win, self._players[self.current_player])
+
+
     # Draw(): TODO add all draw methods
     #   self._board.Draw(WIN)
     #

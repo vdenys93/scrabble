@@ -26,7 +26,7 @@ class Tile:
     def draw(self, xy: tuple, win):
         x = SQUARE_SIZE * xy[0] + SQUARE_SIZE // 2
         y = SQUARE_SIZE * xy[1] + SQUARE_SIZE // 2
-        pygame.draw.rect(win, BLACK, (100 + (x * SQUARE_SIZE), 150 + (y * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
+        pygame.draw.rect(win, BLACK, (TILE_HOLDER_OFFSET_X + (x * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y + (y * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
         font = pygame.font.Font('freesansbold.ttf', 26)
         TW_tiles = font.render(self._letter, True, BLACK)
         win.blit(TW_tiles, (108 + (x * SQUARE_SIZE), 164 + (y * SQUARE_SIZE)))
