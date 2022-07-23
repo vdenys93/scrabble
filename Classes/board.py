@@ -22,16 +22,18 @@ class Board:
         return tiles_on_board
 
 
+
     def draw_tile_holder(self, win, player: player.Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
 
+
         if player is not None and len(player.tile_array) > 0:
-            for idy, tile in enumerate(player.tile_array):
+            for idx, tile in enumerate(player.tile_array):
                 if tile.is_tile():
-                    pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y + (idy * TILE_SIZE), HOLDER_SIZE_X, HOLDER_SIZE_Y))
-                    font = pygame.font.Font('freesansbold.ttf', 16)
+                    pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
+                    font = pygame.font.Font('freesansbold.ttf', 25)
                     TW_tiles = font.render(tile.get_letter(), True, BLACK)
-                    win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y + (idy * TILE_SIZE), HOLDER_SIZE_X, HOLDER_SIZE_Y))
+                    win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
 
 
     def draw(self, win, player):
@@ -74,4 +76,12 @@ class Board:
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
                     pygame.draw.rect(win, TAN, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
         self.draw_tile_holder(win, player)
+
+        for idx, row in enumerate(self._board):
+            for idy, col in enumerate(row):
+                if col.is_tile():
+                    pygame.draw.rect(win, WHITE, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
+                    font = pygame.font.Font('freesansbold.ttf', 25)
+                    TW_tiles = font.render(col.get_letter(), True, BLACK)
+                    win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
 

@@ -17,11 +17,9 @@ pygame.init()
 
 def get_row_col_from_mouse(pos):
     x, y = pos
-    x -= 100
-    y -= 150
 
-    row = (y + 0.5) // SQUARE_SIZE
-    col = (x + 0.5) // SQUARE_SIZE
+    row = y // SQUARE_SIZE * .75
+    col = x // SQUARE_SIZE * .75
     return row, col
 
 
@@ -42,7 +40,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                print(row,col)
+                print(row, col)
 
         game_controller.update()
 

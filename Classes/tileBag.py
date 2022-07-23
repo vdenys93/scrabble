@@ -18,7 +18,7 @@ class TileBag:
         tiles = []
         for letter in self.default_tileset:
             for _ in range(self.default_tileset[letter]):
-                tiles.append(letter)
+                tiles.append(Tile(letter))
         return tiles
 
     def get_tiles(self, count) -> [Tile]:

@@ -3,8 +3,9 @@ from Classes.player import Player
 from Classes.tile import Tile
 from Classes.tileBag import TileBag
 import pygame
-from scrabble.constants import *
+from constants import *
 import sys
+
 
 class Controller:
     def __init__(self, win):
@@ -13,7 +14,8 @@ class Controller:
         self._tile_bag = TileBag()
         self._placed_tiles = {}
         self.win = win
-        self.current_players_turn = 0
+
+        self.current_players_turn = 0 #by index
 
 
     def place_Tile(self, xy: tuple, tile: Tile):
@@ -109,13 +111,72 @@ class Controller:
         #get_player_count(win)
         self.start_pass_out_tiles()
 
-    def player_turn(self):
+    #def player_turn(self):
+
+    #def self._tile_move()
+
+    def get_row_col_from_mouse(self, pos):
+        x, y = pos
+        row = y // SQUARE_SIZE
+        col = x // SQUARE_SIZE
+        return row, col
+
+    def next_turn(self):
+        if self.current_players_turn == len(self._players) - 1:
+            self.current_players_turn = 0
+        else:
+            self.current_players_turn += 1
+
+    #def clicked_tile(self):
 
 
     def update(self):
+        turn = True
+        while turn:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-        self._board.draw(self.win, self._players[self.current_players_turn])
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
+                    print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
+                    print(mgrid[0])
+
+                    #print(mgrid[0])
+                    #print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
+
+                    if TILE_HOLDER_OFFSET_X // SQUARE_SIZE <= mgrid[1] < TILE_HOLDER_OFFSET_X // SQUARE_SIZE + 7 and mgrid[0] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
+                        tile_index = int(mgrid[1] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
+                        #print(tile_index)
+                        player_tiles = self._players[self.current_players_turn].tile_array
+                        if player_tiles[tile_index].is_tile():
+
+                            #print("TILE: " + str(mgrid[1] - TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
+                            #TODO convert to mouse sticky then place on next click or return to tray
+                            placed = False
+                            while placed is not True:
+                                for idx, row in enumerate(self._board._board):
+                                    for idy, col in enumerate(row):
+                                        if col.is_tile() is not True and placed == False:
+                                            print("runs")
+                                            self._board._board[idx][idy] = player_tiles.pop(tile_index)
+                                            player_tiles += self._tile_bag.get_tiles(1)
+                                            placed = True
+                                            #TODO submit tiles ended turn
+                                            turn = False
+
+
+
+                    #draw on mouse()#TODO waiting for tiles to draw themselves
+            self._board.draw(self.win, self._players[self.current_players_turn])
+            #TODO add buttons to submit word, pass
+            #self.curr
+
+            pygame.display.flip()
+
+        self.next_turn()
 
     # Draw(): TODO add all draw methods
     #   self._board.Draw(WIN)
