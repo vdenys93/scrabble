@@ -12,7 +12,7 @@ class Controller:
         self._board = Board()
         self._players = [Player("testone", 1), Player("testtwo", 2)]
         self._tile_bag = TileBag()
-        self._placed_tiles = {}
+        self._placed_tiles = []
         self.win = win
 
         self.current_players_turn = 0 #by index
@@ -117,8 +117,8 @@ class Controller:
 
     def get_row_col_from_mouse(self, pos):
         x, y = pos
-        row = y // SQUARE_SIZE
-        col = x // SQUARE_SIZE
+        row = int(y // SQUARE_SIZE)
+        col = int(x // SQUARE_SIZE)
         return row, col
 
     def next_turn(self):
@@ -149,10 +149,46 @@ class Controller:
                 self._players[self.current_players_turn].turn_since_last_placement += 1
                 print("COLLISION")
                 return False
-
+        #if self._tile_bag.get_tile_count() > 1:
+            #player_tiles += self._tile_bag.get_tiles(1)
         return True
 
     #def submit_word
+
+    def tile_placement(self, tile):
+        floating_tile = tile
+        placed = False
+
+        while placed is not True:
+            mpos = (pygame.mouse.get_pos())
+
+            self.draw()
+            tile.draw(self.win, mpos[0], mpos[1])
+            pygame.display.flip()
+
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mpos = pygame.mouse.get_pos()
+                    mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
+
+                    #board placement
+                    if  BOARD_OFFSET_X < mpos[0] < BOARD_OFFSET_X + BOARD_WIDTH and BOARD_OFFSET_Y < mpos[1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
+                    #TODO add extra condition for isvalidplacement
+                        if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
+                            board_grid = (int(mgrid[1] - (BOARD_OFFSET_X // SQUARE_SIZE)), int(mgrid[0] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
+                            self._board.place_tile(tile, board_grid)
+                            placed = True
+
+                    #TODO tray placement
+
+
+
+
 
     def tile_holder_clicks(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -169,21 +205,25 @@ class Controller:
                 # print(tile_index)
                 player_tiles = self._players[self.current_players_turn].tile_array
                 if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
-
+                    self.tile_placement(player_tiles.pop(tile_index))
                     # print("TILE: " + str(mgrid[1] - TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                     # TODO convert to mouse sticky then place on next click or return to tray
-                    placed = False
-                    while placed is not True:
-                        for idx, row in enumerate(self._board._board):
-                            for idy, col in enumerate(row):
-                                if col.is_tile() is not True and placed == False:
-                                    print("runs")
-                                    self._board._board[idx][idy] = player_tiles.pop(tile_index)
-                                    if self._tile_bag.get_tile_count() > 1:
-                                        player_tiles += self._tile_bag.get_tiles(1)
+                    #placed = False
+                    #while placed is not True:
+                        #for idx, row in enumerate(self._board._board):
+                            #for idy, col in enumerate(row):
+                                #if col.is_tile() is not True and placed == False:
+                                    #print("runs")
+                                    #self._board._board[idx][idy] = player_tiles.pop(tile_index)
 
-                                    placed = True
-                                    # TODO submit tiles ended turn
+
+                                    #placed = True
+
+    def draw(self):
+
+        self._board.draw(self.win, self._players[self.current_players_turn])
+        self.player_turn_display()
+
 
     def update(self):
         turn = True
@@ -193,17 +233,17 @@ class Controller:
                     pygame.quit()
                     sys.exit()
 
-                turn = self.pass_button(self.win, event)
+
                 self.tile_holder_clicks(event)
-                self.player_turn_display()
-
-
+                self.draw()
+                turn = self.pass_button(self.win, event)
+                pygame.display.flip()
         #draw on mouse()#TODO waiting for tiles to draw themselves
-            self._board.draw(self.win, self._players[self.current_players_turn])
+
             #TODO add buttons to submit word, pass
             #self.curr
 
-            pygame.display.flip()
+
 
         self.next_turn()
 

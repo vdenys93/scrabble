@@ -37,6 +37,8 @@ class Board:
 
 
     def draw(self, win, player):
+        pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
+
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
                 if BOARD_PATTERN[idx][idy] == 'TW':
