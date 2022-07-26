@@ -127,6 +127,14 @@ class Controller:
         else:
             self.current_players_turn += 1
 
+
+    def player_turn_display(self):
+        button_rect = Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
+        pygame.draw.rect(self.win, WHITE, button_rect)
+        font = pygame.font.Font('freesansbold.ttf', 25)
+        submit_button = font.render("Player: " + str(self.current_players_turn), True, BLACK)
+        self.win.blit(submit_button, button_rect)
+
     #def clicked_tile(self):
     def pass_button(self, win, event) -> bool:
         button_rect = Rect(SQUARE_SIZE * 15, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
@@ -144,6 +152,8 @@ class Controller:
 
         return True
 
+    #def submit_word
+
     def tile_holder_clicks(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
@@ -158,7 +168,7 @@ class Controller:
                 tile_index = int(mgrid[1] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                 # print(tile_index)
                 player_tiles = self._players[self.current_players_turn].tile_array
-                if player_tiles[tile_index].is_tile():
+                if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
 
                     # print("TILE: " + str(mgrid[1] - TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                     # TODO convert to mouse sticky then place on next click or return to tray
@@ -169,7 +179,8 @@ class Controller:
                                 if col.is_tile() is not True and placed == False:
                                     print("runs")
                                     self._board._board[idx][idy] = player_tiles.pop(tile_index)
-                                    player_tiles += self._tile_bag.get_tiles(1)
+                                    if self._tile_bag.get_tile_count() > 1:
+                                        player_tiles += self._tile_bag.get_tiles(1)
 
                                     placed = True
                                     # TODO submit tiles ended turn
@@ -184,6 +195,8 @@ class Controller:
 
                 turn = self.pass_button(self.win, event)
                 self.tile_holder_clicks(event)
+                self.player_turn_display()
+
 
         #draw on mouse()#TODO waiting for tiles to draw themselves
             self._board.draw(self.win, self._players[self.current_players_turn])
