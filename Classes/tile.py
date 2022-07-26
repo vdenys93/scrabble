@@ -22,5 +22,20 @@ class Tile:
             return False
         return True
 
-    #def draw(self, mpos: tuple, win):
-        # TODO
+    def draw(win, letter: str, points: str, xcor: int, ycor: int):
+        # mpos: tuple, win
+        # Will need to update coordinates with mouse position and move text rectangles
+        # Text currently appearing in top left corner
+
+        letter_font = pygame.font.Font('freesansbold.ttf', 16)
+        letter_text = letter_font.render(letter, True, BLACK, None)
+        letter_rect_obj = letter_text.get_rect()
+        letter_rect_obj.center = (SQUARE_SIZE // 2 + xcor, SQUARE_SIZE // 2 + ycor)
+        points_font = pygame.font.Font('freesansbold.ttf', 10)
+        points_text = points_font.render(points, True, BLACK, None)
+        points_rect_obj = points_text.get_rect()
+        points_rect_obj.center = (SQUARE_SIZE - 8 + xcor, SQUARE_SIZE - 8 + ycor) #40 - 8
+        tile_border_obj = pygame.Rect(xcor, ycor, SQUARE_SIZE - 1, SQUARE_SIZE - 1)
+        pygame.draw.rect(win, WHITE, tile_border_obj)
+        win.blit(letter_text, letter_rect_obj)
+        win.blit(points_text, points_rect_obj)
