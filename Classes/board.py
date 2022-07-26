@@ -37,6 +37,7 @@ class Board:
 
 
     def draw(self, win, player):
+        win.fill(LT_CYAN)
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
                 if BOARD_PATTERN[idx][idy] == 'TW':
