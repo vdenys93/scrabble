@@ -1,7 +1,7 @@
 from board import Board
-from Classes.player import Player
-from Classes.tile import Tile
-from Classes.tileBag import TileBag
+from player import Player
+from tile import Tile
+from tileBag import TileBag
 import pygame
 from constants import *
 import sys
@@ -131,8 +131,13 @@ class Controller:
 
 
     def update(self):
+        # Dennis mouse position
+        mx = 0
+        my = 0
+
         turn = True
         while turn:
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -143,9 +148,11 @@ class Controller:
                     mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
                     print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
                     print(mgrid[0])
+                    # Dennis get mouse position
+                    mx, my = pygame.mouse.get_pos()
 
-                    #print(mgrid[0])
-                    #print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
+                    print(mgrid[0])
+                    print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
 
                     if TILE_HOLDER_OFFSET_X // SQUARE_SIZE <= mgrid[1] < TILE_HOLDER_OFFSET_X // SQUARE_SIZE + 7 and mgrid[0] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
                         tile_index = int(mgrid[1] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
@@ -174,7 +181,14 @@ class Controller:
             #TODO add buttons to submit word, pass
             #self.curr
 
-            pygame.display.flip()
+            #pygame.display.flip()
+
+            # Dennis - Practice for Placing tiles
+            if mx != 0:
+                Tile.draw(self.win, 'A', '1', mx, my)
+
+
+            pygame.display.update()
 
         self.next_turn()
 
