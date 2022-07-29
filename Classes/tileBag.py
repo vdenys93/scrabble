@@ -22,9 +22,17 @@ class TileBag:
         return tiles
 
     def get_tiles(self, count) -> [Tile]:
-        if self._tiles_in_bag:
+        if len(self._tiles_in_bag):
+            starting_tiles_in_bag = len(self._tiles_in_bag)
             print(len(self._tiles_in_bag))
-            return [self._tiles_in_bag.pop(random.randrange(1, len(self._tiles_in_bag))) for _ in range(min(count, len(self._tiles_in_bag)))]
+            tiles = [self._tiles_in_bag.pop(random.randrange(0, len(self._tiles_in_bag))) for _ in range(min(count, len(self._tiles_in_bag)))]
+
+            if count > starting_tiles_in_bag:
+                need = count - starting_tiles_in_bag
+                tiles.extend([Tile() for _ in range(need)])
+
+            return tiles
         else:
-            return Tile()
+            return [Tile() for _ in range(count)]
+
 
