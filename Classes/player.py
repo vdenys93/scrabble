@@ -29,6 +29,7 @@ class Player:
         self.score = score
         self.tile_array = [tile.Tile()]
         self.last_placed_word = [] # (x,y) tuples of location on board
+        self.skip_next_turn = False;
 
     def tile_count(self) -> int:
         non_null_tiles = 0
