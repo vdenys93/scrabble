@@ -35,5 +35,6 @@ class Tile:
         points_rect_obj.center = (SQUARE_SIZE - 8 + xcor, SQUARE_SIZE - 8 + ycor) #40 - 8
         tile_border_obj = pygame.Rect(xcor, ycor, SQUARE_SIZE - 1, SQUARE_SIZE - 1)
         pygame.draw.rect(win, WHITE, tile_border_obj)
+        pygame.draw.rect(win, GREY, tile_border_obj, 1)
         win.blit(letter_text, letter_rect_obj)
         win.blit(points_text, points_rect_obj)
