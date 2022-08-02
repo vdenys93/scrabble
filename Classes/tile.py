@@ -3,7 +3,7 @@ from constants import *
 class Tile:
 
 
-    def __init__(self, character=''):
+    def __init__(self, character=""):
         self._letter = character
         self._points = TILE_SCORES[character]
 
@@ -18,21 +18,19 @@ class Tile:
         self._points = TILE_SCORES[character]
 
     def is_tile(self) -> bool:
-        if self._letter == '':
+        if self._letter == "":
             return False
         return True
 
-    def draw(win, letter: str, points: str, xcor: int, ycor: int):
+    def draw(self, win, xcor: int, ycor: int):
         # mpos: tuple, win
-        # Will need to update coordinates with mouse position and move text rectangles
-        # Text currently appearing in top left corner
 
         letter_font = pygame.font.Font('freesansbold.ttf', 16)
-        letter_text = letter_font.render(letter, True, BLACK, None)
+        letter_text = letter_font.render(self._letter, True, BLACK, None)
         letter_rect_obj = letter_text.get_rect()
-        letter_rect_obj.center = (SQUARE_SIZE // 2 + xcor, SQUARE_SIZE // 2 + ycor)
+        letter_rect_obj.center = ((SQUARE_SIZE // 2) + xcor, (SQUARE_SIZE // 2) + ycor)
         points_font = pygame.font.Font('freesansbold.ttf', 10)
-        points_text = points_font.render(points, True, BLACK, None)
+        points_text = points_font.render(str(self._points), True, BLACK, None)
         points_rect_obj = points_text.get_rect()
         points_rect_obj.center = (SQUARE_SIZE - 8 + xcor, SQUARE_SIZE - 8 + ycor) #40 - 8
         tile_border_obj = pygame.Rect(xcor, ycor, SQUARE_SIZE - 1, SQUARE_SIZE - 1)
