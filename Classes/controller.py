@@ -117,12 +117,16 @@ class Controller:
         else:
             self.current_players_turn += 1
 
+    # Player turn display
     def player_turn_display(self):
-        button_rect = Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
+        button_rect = Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
-        font = pygame.font.Font('freesansbold.ttf', 25)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 24)
         submit_button = font.render("Player: " + str(self.current_players_turn), True, BLACK)
-        self.win.blit(submit_button, button_rect)
+        submit_butto_rect = font.render("Player: " + str(self.current_players_turn), True, BLACK)
+        submit_button_rect = submit_button.get_rect(center = (4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
+        self.win.blit(submit_button, submit_button_rect)
 
     def challenge(self) -> bool:
         button_rect = Rect(SQUARE_SIZE * 2, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
@@ -232,11 +236,14 @@ class Controller:
 
     #def clicked_tile(self):
     def pass_button(self, event) -> bool:
-        button_rect = Rect(SQUARE_SIZE * 15, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
-        font = pygame.font.Font('freesansbold.ttf', 25)
+        #Draw Pass Button
+        button_rect = Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 24)
         pass_button = font.render('Pass', True, BLACK)
-        self.win.blit(pass_button, button_rect)
+        pass_button_rect = pass_button.get_rect(center = (BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        self.win.blit(pass_button, pass_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
@@ -249,11 +256,14 @@ class Controller:
         return True
 
     def submit_word(self, event):
-        button_rect = Rect(SQUARE_SIZE * 10, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
-        font = pygame.font.Font('freesansbold.ttf', 25)
-        submit_button = font.render('Submit', True, BLACK)
-        self.win.blit(submit_button, button_rect)
+        #Draw Submit word button
+        button_rect = Rect(SQUARE_SIZE, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 24)
+        submit_button = font.render('Submit Word', True, BLACK)
+        submit_button_rect = submit_button.get_rect(center = (SQUARE_SIZE * 3.5, SQUARE_SIZE * 18 +(TILE_SIZE * .5)))
+        self.win.blit(submit_button, submit_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
