@@ -15,7 +15,7 @@ CYAN = (0, 255, 255)
 LT_CYAN = (175, 238, 238)
 
 # Display settings
-DISPLAY_WIDTH, DISPLAY_HEIGHT = 600, 600
+DISPLAY_WIDTH, DISPLAY_HEIGHT = 800, 800
 
 # Board constants
 BOARD_WIDTH, BOARD_HEIGHT = DISPLAY_WIDTH * .75, DISPLAY_HEIGHT * .75
@@ -77,4 +77,3 @@ MAX_PLAYERS = 2    # Max players can be changed to a user entry later.
 MAX_TILES_PLAYABLE = 7
 # PLAYER_NAME_FONT = pygame.font.Font('freesansbold.ttf', 32)
 PLAYER_TEXTX, PLAYER_TEXTY = 150, 10
-
