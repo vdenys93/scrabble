@@ -38,6 +38,7 @@ class Board:
 
     def draw(self, win, player):
         pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        win.fill(LT_CYAN)
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
@@ -86,4 +87,3 @@ class Board:
                     #font = pygame.font.Font('freesansbold.ttf', 25)
                     #TW_tiles = font.render(col.get_letter(), True, BLACK)
                     #win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
-
