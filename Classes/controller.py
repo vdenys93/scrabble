@@ -128,7 +128,7 @@ class Controller:
         button_rect = Rect(SQUARE_SIZE * 2, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         font = pygame.font.Font('freesansbold.ttf', 25)
-        submit_button = font.render("Challenge Word!" + str(self.current_players_turn), True, BLACK)
+        submit_button = font.render("Challenge Word!", True, BLACK)
         self.win.blit(submit_button, button_rect)
 
         decided = False
@@ -142,7 +142,7 @@ class Controller:
                 if button_rect.collidepoint(mpos[0], mpos[1]):
                     while decided is not True:
                         self.draw()
-                        valid_rect = Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 1, TILE_SIZE * 7, TILE_SIZE)
+                        valid_rect = Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 1, TILE_SIZE * 8, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, valid_rect)
                         font = pygame.font.Font('freesansbold.ttf', 25)
                         valid_button = font.render("Is the word valid?", True, BLACK)
@@ -167,13 +167,13 @@ class Controller:
                                 mpos = pygame.mouse.get_pos()
 
                                 if yes_rect.collidepoint(mpos[0], mpos[1]):
-                                    which_player_rect = Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
+                                    which_player_rect = Rect(SQUARE_SIZE * 6, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
                                     pygame.draw.rect(self.win, WHITE, which_player_rect)
                                     font = pygame.font.Font('freesansbold.ttf', 25)
                                     which_player_button = font.render("Which player number losses their turn?", True, BLACK)
                                     self.win.blit(which_player_button, which_player_rect)
 
-                                    input_rect = Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
+                                    input_rect = Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
 
 
                                     input_player_num = ''
