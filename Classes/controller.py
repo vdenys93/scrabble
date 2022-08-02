@@ -1,8 +1,8 @@
 import time
 from board import Board
-from Classes.player import Player
-from Classes.tile import Tile
-from Classes.tileBag import TileBag
+from player import Player
+from tile import Tile
+from tileBag import TileBag
 import pygame
 from constants import *
 import sys
