@@ -1,6 +1,4 @@
 import pygame
-from pygame.locals import *
-
 
 # Colors by RGB
 RED = (255, 0, 0)

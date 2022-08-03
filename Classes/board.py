@@ -1,7 +1,8 @@
-from tile import Tile
-from constants import *
 import pygame
-import player
+from .tile import Tile
+from .constants import *
+from .player import Player
+
 
 class Board:
     def __init__(self):
@@ -60,7 +61,7 @@ class Board:
         win.blit(player_two, player_two_rect)
 
 
-    def draw_tile_holder(self, win, player: player.Player):
+    def draw_tile_holder(self, win, player: Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
 
 
