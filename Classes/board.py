@@ -3,6 +3,7 @@ from constants import *
 import pygame
 import player
 
+
 class Board:
     def __init__(self):
 
@@ -12,7 +13,7 @@ class Board:
     def place_tile(self, tile_to_add: Tile, xy: tuple):
         self._board[xy[0]][xy[1]] = tile_to_add
 
-    def  get_tile_locations(self) -> [tuple]:
+    def get_tile_locations(self) -> [tuple]:
         tiles_on_board = [()]
         for idx, x in enumerate(self._board):
             for idy, y in enumerate(x):
@@ -20,21 +21,17 @@ class Board:
                     tiles_on_board.append((y, (idx, idy)))
         return tiles_on_board
 
-
-
     def draw_tile_holder(self, win, player: player.Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
-
 
         if player is not None and len(player.tile_array) > 0:
             for idx, tile in enumerate(player.tile_array):
                 if tile.is_tile():
                     tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
-                    #pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
-                    #font = pygame.font.Font('freesansbold.ttf', 25)
-                    #TW_tiles = font.render(tile.get_letter(), True, BLACK)
-                    #win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
-
+                    # pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y,
+                    # TILE_SIZE, TILE_SIZE)) font = pygame.font.Font('freesansbold.ttf', 25) TW_tiles = font.render(
+                    # tile.get_letter(), True, BLACK) win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE),
+                    # TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
 
     def draw(self, win, player):
         pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -83,7 +80,8 @@ class Board:
             for idy, tile in enumerate(row):
                 if tile.is_tile():
                     tile.draw(win, (idx*SQUARE_SIZE) + BOARD_OFFSET_X, idy*SQUARE_SIZE + BOARD_OFFSET_Y)
-                    #font = pygame.font.Font('freesansbold.ttf', 25)
-                    #TW_tiles = font.render(col.get_letter(), True, BLACK)
-                    #win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
+                    # font = pygame.font.Font('freesansbold.ttf', 25)
+                    # TW_tiles = font.render(col.get_letter(), True, BLACK)
+                    # win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE),
+                    # TILE_SIZE, TILE_SIZE))
 

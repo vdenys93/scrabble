@@ -124,13 +124,36 @@ class Controller:
         submit_button = font.render("Player: " + str(self.current_players_turn), True, BLACK)
         self.win.blit(submit_button, button_rect)
 
+    def calculate_points(self, game_board: Board):
+        word_score, double_word_bonus, triple_word_bonus = 0, 0, 0
+        for i in self._placed_tiles:
+            letter_bonus = 0
+            if BOARD_PATTERN[i[0]][i[1]] == 'TW':
+                triple_word_bonus += 1
+            elif BOARD_PATTERN[i[0]][i[1]] == 'DW':
+                double_word_bonus += 1
+            if BOARD_PATTERN[i[0]][i[1]] == 'TL':
+                letter_bonus = 3
+            elif BOARD_PATTERN[i[0]][i[1]] == 'DL':
+                letter_bonus = 2
+            if letter_bonus > 0:
+                word_score += game_board._board[i[0]][i[1]].get_points() * letter_bonus
+            else:
+                word_score += game_board._board[i[0]][i[1]].get_points()
+        if double_word_bonus > 0:
+            for n in range(double_word_bonus):
+                word_score += game_board._board[i[0]][i[1]].get_points() * 2
+        if triple_word_bonus > 0:
+            for n in range(triple_word_bonus):
+                word_score += game_board._board[i[0]][i[1]].get_points() * 3
+        return word_score
+
     def challenge(self) -> bool:
         button_rect = Rect(SQUARE_SIZE * 2, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         font = pygame.font.Font('freesansbold.ttf', 25)
         submit_button = font.render("Challenge Word!" + str(self.current_players_turn), True, BLACK)
         self.win.blit(submit_button, button_rect)
-
         decided = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -225,12 +248,7 @@ class Controller:
 
                         pygame.display.flip()
 
-
-
-
-
-
-    #def clicked_tile(self):
+    # def clicked_tile(self):
     def pass_button(self, event) -> bool:
         button_rect = Rect(SQUARE_SIZE * 15, SQUARE_SIZE * 18, TILE_SIZE * 3, TILE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
@@ -244,8 +262,8 @@ class Controller:
                 self._players[self.current_players_turn].turn_since_last_placement += 1
                 print("COLLISION")
                 return False
-        #if self._tile_bag.get_tile_count() > 1:
-            #player_tiles += self._tile_bag.get_tiles(1)
+        # if self._tile_bag.get_tile_count() > 1:
+            # player_tiles += self._tile_bag.get_tiles(1)
         return True
 
     def submit_word(self, event):
@@ -255,9 +273,11 @@ class Controller:
         submit_button = font.render('Submit', True, BLACK)
         self.win.blit(submit_button, button_rect)
 
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
+                self.calculate_points(self._board)
                 if len(self._placed_tiles) > 0:
                     self._players[self.current_players_turn].last_placed_word = self._placed_tiles
                     self._placed_tiles = []
@@ -268,10 +288,7 @@ class Controller:
                         self.draw()
                         go = self.challenge()
                         pygame.display.flip()
-
                     #self.next_turn()
-
-
 
     def tile_placement(self, tile):
         floating_tile = tile
@@ -349,3 +366,5 @@ class Controller:
         # draw on mouse()#TODO waiting for tiles to draw themselves
             # TODO add buttons to submit word, pass
         self.next_turn()
+
+

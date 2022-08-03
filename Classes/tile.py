@@ -1,7 +1,7 @@
 from constants import *
 
-class Tile:
 
+class Tile:
 
     def __init__(self, character=""):
         self._letter = character
