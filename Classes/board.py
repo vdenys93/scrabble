@@ -1,7 +1,7 @@
-from tile import Tile
-from constants import *
 import pygame
-import player
+from .tile import Tile
+from .constants import *
+from .player import Player
 
 
 class Board:
@@ -13,7 +13,7 @@ class Board:
     def place_tile(self, tile_to_add: Tile, xy: tuple):
         self._board[xy[0]][xy[1]] = tile_to_add
 
-    def get_tile_locations(self) -> [tuple]:
+    def  get_tile_locations(self) -> [tuple]:
         tiles_on_board = [()]
         for idx, x in enumerate(self._board):
             for idy, y in enumerate(x):
@@ -21,20 +21,69 @@ class Board:
                     tiles_on_board.append((y, (idx, idy)))
         return tiles_on_board
 
-    def draw_tile_holder(self, win, player: player.Player):
+    def draw_scoreboard(self, win, player_name_list: list, score_list: list):
+        #Set scoreboard dimensions
+        scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, DISPLAY_WIDTH - (SQUARE_SIZE * 2), SQUARE_SIZE)
+        #Draw scoreboard and border
+        pygame.draw.rect(win, LT_GREY, scoreboard_object)
+        pygame.draw.rect(win, BLACK, scoreboard_object, 2)
+
+        #Display scoreboard based on number of players
+        if len(player_name_list) == 2:
+            scoreboard_font = pygame.font.Font('freesansbold.ttf', 32)
+            player_one = scoreboard_font.render(player_name_list[0] + ":  " + str(score_list[0]), True, BLACK, None)
+            player_two = scoreboard_font.render(player_name_list[1]+":  "+ str(score_list[1]), True, BLACK, None)
+            player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.25, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.75, SQUARE_SIZE))
+        elif len(player_name_list) == 3:
+            scoreboard_font = pygame.font.Font('freesansbold.ttf', 28)
+            player_one = scoreboard_font.render(player_name_list[0] + ":  " + str(score_list[0]), True, BLACK, None)
+            player_two = scoreboard_font.render(player_name_list[1] + ":  "+ str(score_list[1]), True, BLACK, None)
+            player_three = scoreboard_font.render(player_name_list[2] + ":  " + str(score_list[2]), True, BLACK, None)
+            player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.15, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.5, SQUARE_SIZE))
+            player_three_rect = player_three.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.85, SQUARE_SIZE))
+            win.blit(player_three, player_three_rect)
+        elif len(player_name_list) == 4:
+            scoreboard_font = pygame.font.Font('freesansbold.ttf', 24)
+            player_one = scoreboard_font.render(player_name_list[0] + ":  " + str(score_list[0]), True, BLACK, None)
+            player_two = scoreboard_font.render(player_name_list[1] + ":  "+ str(score_list[1]), True, BLACK, None)
+            player_three = scoreboard_font.render(player_name_list[2] + ":  " + str(score_list[2]), True, BLACK, None)
+            player_four = scoreboard_font.render(player_name_list[3] + ":  " + str(score_list[3]), True, BLACK, None)
+            player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.1, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.35, SQUARE_SIZE))
+            player_three_rect = player_three.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.65, SQUARE_SIZE))
+            player_four_rect = player_four.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.9, SQUARE_SIZE))
+            win.blit(player_three, player_three_rect)
+            win.blit(player_four, player_four_rect)
+        #Draw first two players
+        win.blit(player_one, player_one_rect)
+        win.blit(player_two, player_two_rect)
+
+
+    def draw_tile_holder(self, win, player: Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
+
 
         if player is not None and len(player.tile_array) > 0:
             for idx, tile in enumerate(player.tile_array):
                 if tile.is_tile():
                     tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
-                    # pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y,
-                    # TILE_SIZE, TILE_SIZE)) font = pygame.font.Font('freesansbold.ttf', 25) TW_tiles = font.render(
-                    # tile.get_letter(), True, BLACK) win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE),
-                    # TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
+                    #pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
+                    #font = pygame.font.Font('freesansbold.ttf', 25)
+                    #TW_tiles = font.render(tile.get_letter(), True, BLACK)
+                    #win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
+
 
     def draw(self, win, player):
         pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        win.fill(LT_CYAN)
+
+        #Created Temporary List of Player Names and Scores
+        #To Do: combine Player Name and Score from player name onto scoreboard function
+        player_name_list = ["Player 1", "Player 2", "Player 3"]
+        score_list = [10, 12, 15]
+        self.draw_scoreboard(win, player_name_list, score_list)
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
@@ -80,8 +129,6 @@ class Board:
             for idy, tile in enumerate(row):
                 if tile.is_tile():
                     tile.draw(win, (idx*SQUARE_SIZE) + BOARD_OFFSET_X, idy*SQUARE_SIZE + BOARD_OFFSET_Y)
-                    # font = pygame.font.Font('freesansbold.ttf', 25)
-                    # TW_tiles = font.render(col.get_letter(), True, BLACK)
-                    # win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE),
-                    # TILE_SIZE, TILE_SIZE))
-
+                    #font = pygame.font.Font('freesansbold.ttf', 25)
+                    #TW_tiles = font.render(col.get_letter(), True, BLACK)
+                    #win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))

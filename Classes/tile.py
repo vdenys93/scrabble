@@ -1,4 +1,5 @@
-from constants import *
+import pygame
+from .constants import *
 
 
 class Tile:
@@ -32,8 +33,9 @@ class Tile:
         points_font = pygame.font.Font('freesansbold.ttf', 10)
         points_text = points_font.render(str(self._points), True, BLACK, None)
         points_rect_obj = points_text.get_rect()
-        points_rect_obj.center = (SQUARE_SIZE - 8 + xcor, SQUARE_SIZE - 8 + ycor) #40 - 8
+        points_rect_obj.center = (SQUARE_SIZE - 8 + xcor, SQUARE_SIZE - 8 + ycor)  # 40 - 8
         tile_border_obj = pygame.Rect(xcor, ycor, SQUARE_SIZE - 1, SQUARE_SIZE - 1)
         pygame.draw.rect(win, WHITE, tile_border_obj)
+        pygame.draw.rect(win, GREY, tile_border_obj, 1)
         win.blit(letter_text, letter_rect_obj)
         win.blit(points_text, points_rect_obj)
