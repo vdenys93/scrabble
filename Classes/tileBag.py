@@ -23,7 +23,8 @@ class TileBag:
         if len(self._tiles_in_bag):
             starting_tiles_in_bag = len(self._tiles_in_bag)
             print(len(self._tiles_in_bag))
-            tiles = [self._tiles_in_bag.pop(random.randrange(0, len(self._tiles_in_bag))) for _ in range(min(count, len(self._tiles_in_bag)))]
+            tiles = [self._tiles_in_bag.pop(random.randrange(0, len(self._tiles_in_bag))) for _ in
+                     range(min(count, len(self._tiles_in_bag)))]
 
             if count > starting_tiles_in_bag:
                 need = count - starting_tiles_in_bag
@@ -32,5 +33,6 @@ class TileBag:
             return tiles
         else:
             return [Tile() for _ in range(count)]
+
 
 

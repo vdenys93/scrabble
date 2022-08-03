@@ -16,7 +16,6 @@ class Controller:
         self._tile_bag = TileBag()
         self._placed_tiles = []
         self.win = win
-
         self.current_players_turn = 0  # by index
 
     def place_tile(self, xy: tuple):
@@ -33,7 +32,7 @@ class Controller:
 
     def create_player(self, win, count):
         input_font = pygame.font.Font('freesansbold.ttf', 20)
-        user_text= ''
+        user_text = ''
         input_rect = pygame.Rect(300, 300, 300, 100)
 
         entered = False
@@ -66,7 +65,7 @@ class Controller:
 
     def get_player_count(self, win):
         input_font = pygame.font.Font('freesansbold.ttf', 20)
-        user_text= ''
+        user_text = ''
         input_rect = pygame.Rect(300, 300, 300, 100)
 
         entered = False
@@ -98,13 +97,17 @@ class Controller:
 
         self.create_player(int(user_text))
 
-    def start_pass_out_tiles(self):
+    def pass_out_tiles(self):
         for player in self._players:
-            player.tile_array = self._tile_bag.get_tiles(7)
+            if len(player.tile_array) == 0:
+               player.tile_array = self._tile_bag.get_tiles(7)
+            elif len(player.tile_array) < 7:
+                count = 7 - len(player.tile_array)
+                player.tile_array = player.tile_array + (self._tile_bag.get_tiles(count))
 
     def start(self, win):
         # get_player_count(win)
-        self.start_pass_out_tiles()
+        self.pass_out_tiles()
 
     def get_row_col_from_mouse(self, pos):
         x, y = pos
@@ -117,6 +120,7 @@ class Controller:
             self.current_players_turn = 0
         else:
             self.current_players_turn += 1
+        self.pass_out_tiles()
 
     # Player turn display
     def player_turn_display(self):
@@ -203,7 +207,6 @@ class Controller:
                                                         self._players[int(input_player_num)].skip_next_turn = True
                                                         player = True
                                                         return True
-
                                                 else:
                                                     input_player_num += event.unicode
                                             pygame.draw.rect(self.win, WHITE, input_rect)
@@ -239,7 +242,7 @@ class Controller:
         pygame.draw.rect(self.win, GREY, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         pass_button = font.render('Pass', True, BLACK)
-        pass_button_rect = pass_button.get_rect(center = (BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        pass_button_rect = pass_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(pass_button, pass_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
