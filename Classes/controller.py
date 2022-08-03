@@ -109,6 +109,30 @@ class Controller:
         # get_player_count(win)
         self.pass_out_tiles()
 
+    def calculate_points(self, game_board: Board):
+        word_score, double_word_bonus, triple_word_bonus = 0, 0, 0
+        for i in self._placed_tiles:
+            letter_bonus = 0
+            if BOARD_PATTERN[i[0]][i[1]] == 'TW':
+                triple_word_bonus += 1
+            elif BOARD_PATTERN[i[0]][i[1]] == 'DW':
+                double_word_bonus += 1
+            if BOARD_PATTERN[i[0]][i[1]] == 'TL':
+                letter_bonus = 3
+            elif BOARD_PATTERN[i[0]][i[1]] == 'DL':
+                letter_bonus = 2
+            if letter_bonus > 0:
+                word_score += game_board._board[i[0]][i[1]].get_points() * letter_bonus
+            else:
+                word_score += game_board._board[i[0]][i[1]].get_points()
+        if double_word_bonus > 0:
+            for n in range(double_word_bonus):
+                word_score += game_board._board[i[0]][i[1]].get_points() * 2
+        if triple_word_bonus > 0:
+            for n in range(triple_word_bonus):
+                word_score += game_board._board[i[0]][i[1]].get_points() * 3
+        return word_score
+
     def get_row_col_from_mouse(self, pos):
         x, y = pos
         row = int(y // SQUARE_SIZE)
@@ -268,6 +292,7 @@ class Controller:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
+                self.calculate_points(self._board)
                 if len(self._placed_tiles) > 0:
                     self._players[self.current_players_turn].last_placed_word = self._placed_tiles
                     self._placed_tiles = []
