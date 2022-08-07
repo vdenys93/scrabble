@@ -273,14 +273,14 @@ class Controller:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
                 self._players[self.current_players_turn].turn_since_last_placement += 1
-                print("COLLISION")
                 return False
         # if self._tile_bag.get_tile_count() > 1:
             # player_tiles += self._tile_bag.get_tiles(1)
         return True
 
-    def submit_word(self, event):
+    def submit_word(self, event) -> bool:
         # Draw Submit word button
+
         button_rect = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
         pygame.draw.rect(self.win, LT_GREY, button_rect)
         pygame.draw.rect(self.win, GREY, button_rect, 1)
@@ -303,8 +303,10 @@ class Controller:
                         self.draw()
                         go = self.challenge()
                         pygame.display.flip()
+                    turn_active = False
+                    return turn_active
 
-                    # self.next_turn()
+
 
 
 
@@ -331,8 +333,6 @@ class Controller:
 
                     # board placement
                     if  BOARD_OFFSET_X < mpos[0] < BOARD_OFFSET_X + BOARD_WIDTH and BOARD_OFFSET_Y < mpos[1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
-                        print("X grid " + str(BOARD_OFFSET_X),str(mpos[0]))
-                        print("Y grid " + str(BOARD_OFFSET_Y),str(mpos[1]))
                         if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
                             board_grid = (int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE)), int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
                             self._board.place_tile(tile, board_grid)
@@ -353,7 +353,6 @@ class Controller:
                 tile_index = int(mgrid[0] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                 # print(tile_index)
                 player_tiles = self._players[self.current_players_turn].tile_array
-                print(player_tiles[tile_index].is_tile())
                 if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
                     self.tile_placement(player_tiles.pop(tile_index))
                     # print("TILE: " + str(mgrid[1] - TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
@@ -378,9 +377,11 @@ class Controller:
 
                 self.tile_holder_clicks(event)
                 self.draw()
-                self.submit_word(event)
-                turn = self.pass_button(event)
+                turn = self.submit_word(event)
+                if turn is not False:
+                    turn = self.pass_button(event)
                 pygame.display.flip()
+
         # draw on mouse()#TODO waiting for tiles to draw themselves
             # TODO add buttons to submit word, pass
         self.next_turn()
