@@ -31,12 +31,12 @@ class Player:
         self.player_num = player_num
         self.turn_count = turn_count
         self.turn_since_last_placement = turn_since_last_placement
-        self.score = score
         self.tile_array = []
         self.last_placed_word = [] # (x,y) tuples of location on board
         self.skip_next_turn = False
         Player.nickname_list.append(nick_name) # Add nickname to the nickname display list for scoreboard
         Player.score_list.append(score) # Add score to score display list for scoreboard
+        self.score = score
 
     def tile_count(self) -> int:
         non_null_tiles = 0
@@ -46,9 +46,9 @@ class Player:
         return non_null_tiles
 
     #Update the score list for the scoreboard    
-    def update_score_list(self, player_num, score):
+    def update_score_list(self):
         index = 1
         while index <= len(Player.score_list):
-            if index == player_num:
-                Player.score_list[index - 1] += score
+            if index == self.player_num:
+                Player.score_list[index - 1] = self.score
             index += 1

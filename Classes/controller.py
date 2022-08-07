@@ -109,8 +109,43 @@ class Controller:
         # get_player_count(win)
         self.pass_out_tiles()
 
+    def adjacent_word_points(self):
+        score_total = 0
+        for xy in self._placed_tiles:
+            adjacent_letters = [ (xy[0], xy[1]-1),
+
+            (xy[0]-1, xy[1]),                    (xy[0]+1, xy[1]),
+
+                                 (xy[0], xy[1]+1)
+                                ]
+            for idx, a in enumerate(adjacent_letters):
+                if a not in self._placed_tiles and self._board._board[a[0]][a[1]].is_tile():
+                    # north
+                    direction = [0, 0]
+                    if idx == 0:
+                        direction = [0, -1]
+                    #east
+                    if idx == 1:
+                        direction = [-1, 0]
+                    #west
+                    if idx == 2:
+                        direction = [1, 0]
+                    #south
+                    if idx == 3:
+                        direction = [0, 1]
+
+                    xy = list(a)
+
+                    while self._board._board[xy[0]][xy[1]].is_tile():
+                        score_total += self._board._board[xy[0]][xy[1]].get_points()
+                        xy[0] += direction[0]
+                        xy[1] += direction[1]
+        return score_total
+
     def calculate_points(self, game_board: Board):
         word_score, double_word_bonus, triple_word_bonus = 0, 0, 0
+        #adjacent_words = self.adjacent_word_points()
+        adjacent_words = 0
         for i in self._placed_tiles:
             letter_bonus = 0
             if BOARD_PATTERN[i[0]][i[1]] == 'TW':
@@ -131,7 +166,7 @@ class Controller:
         if triple_word_bonus > 0:
             for n in range(triple_word_bonus):
                 word_score += game_board._board[i[0]][i[1]].get_points() * 3
-        return word_score
+        return word_score + adjacent_words
 
     def get_row_col_from_mouse(self, pos):
         x, y = pos
@@ -147,7 +182,9 @@ class Controller:
             self.current_players_turn += 1
         if self._players[self.current_players_turn].skip_next_turn == True:
             self.next_turn()
+        self._placed_tiles = []
         self.pass_out_tiles()
+        pygame.display.flip()
 
     # Player turn display
     def player_turn_display(self):
@@ -256,6 +293,7 @@ class Controller:
                                             pygame.display.flip()
 
                                     self.win.blit(no_button, no_rect)
+                                    return True
 
                                 if no_rect.collidepoint((mpos[0], mpos[1])):
                                     end_time = time.time() + 4
@@ -269,9 +307,10 @@ class Controller:
                                         self.win.blit(lost_turn_button, lost_turn_rect)
                                         pygame.display.flip()
                                         decided = True
-                                    return True
+                                    return False
 
                         pygame.display.flip()
+
 
 
     # def clicked_tile(self):
@@ -308,17 +347,18 @@ class Controller:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
-                self.calculate_points(self._board)
                 if len(self._placed_tiles) > 0:
                     self._players[self.current_players_turn].last_placed_word = self._placed_tiles
-                    self._placed_tiles = []
-                    delay = time.time() + 10
+                    delay = time.time() + 5
 
-                    go = False
-                    while time.time() < delay and go is not True:
+                    good_word = None
+                    while time.time() < delay and good_word is None:
                         self.draw()
-                        go = self.challenge()
+                        good_word = self.challenge()
                         pygame.display.flip()
+                    if good_word is None or good_word is True:
+                        self._players[self.current_players_turn].score += self.calculate_points(self._board)
+                    self._board.draw_scoreboard(self.win, self._players[self.current_players_turn])
                     turn_active = False
                     return turn_active
 
@@ -386,6 +426,7 @@ class Controller:
             self._players[self.current_players_turn].skip_next_turn = False
 
         while turn:
+            pygame.event.post(pygame.event.Event(pygame.USEREVENT+1))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -396,6 +437,7 @@ class Controller:
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
+
                 pygame.display.flip()
 
         # draw on mouse()#TODO waiting for tiles to draw themselves

@@ -22,6 +22,7 @@ class Board:
         return tiles_on_board
 
     def draw_scoreboard(self, win, player):
+        player.update_score_list()
         #Set scoreboard dimensions
         scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, DISPLAY_WIDTH - (SQUARE_SIZE * 2), SQUARE_SIZE)
         #Draw scoreboard and border
@@ -81,7 +82,6 @@ class Board:
 
 
         #To Do: Update score list once the submit button is working
-        self.draw_scoreboard(win, player)
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
@@ -122,6 +122,7 @@ class Board:
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
                     pygame.draw.rect(win, TAN, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
         self.draw_tile_holder(win, player)
+        self.draw_scoreboard(win, player)
 
         for idx, row in enumerate(self._board):
             for idy, tile in enumerate(row):
