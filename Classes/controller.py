@@ -158,10 +158,10 @@ class Controller:
         self.win.blit(submit_button, submit_button_rect)
 
     def challenge(self) -> bool:
-        button_rect = pygame.Rect(SQUARE_SIZE * 2, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
+        button_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 18, SQUARE_SIZE * 5.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         font = pygame.font.Font('freesansbold.ttf', 25)
-        submit_button = font.render("Challenge Word!" + str(self.current_players_turn), True, BLACK)
+        submit_button = font.render("Challenge Word!", True, BLACK)
         self.win.blit(submit_button, button_rect)
 
         decided = False
@@ -175,18 +175,18 @@ class Controller:
                 if button_rect.collidepoint(mpos[0], mpos[1]):
                     while decided is not True:
                         self.draw()
-                        valid_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 1, TILE_SIZE * 7, TILE_SIZE)
+                        valid_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 17, TILE_SIZE * 7, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, valid_rect)
                         font = pygame.font.Font('freesansbold.ttf', 25)
                         valid_button = font.render("Is the word valid?", True, BLACK)
                         self.win.blit(valid_button, valid_rect)
 
-                        yes_rect = pygame.Rect(SQUARE_SIZE * 8, SQUARE_SIZE * 1, TILE_SIZE * 2, TILE_SIZE)
+                        yes_rect = pygame.Rect(SQUARE_SIZE * 8, SQUARE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, yes_rect)
                         yes_button = font.render("Yes", True, BLACK)
                         self.win.blit(yes_button, yes_rect)
 
-                        no_rect = pygame.Rect(SQUARE_SIZE * 11, SQUARE_SIZE * 1, TILE_SIZE * 2, TILE_SIZE)
+                        no_rect = pygame.Rect(SQUARE_SIZE * 11, SQUARE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, no_rect)
                         no_button = font.render("No", True, BLACK)
                         self.win.blit(no_button, no_rect)
@@ -200,13 +200,13 @@ class Controller:
                                 mpos = pygame.mouse.get_pos()
 
                                 if yes_rect.collidepoint(mpos[0], mpos[1]):
-                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
+                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 15, TILE_SIZE)
                                     pygame.draw.rect(self.win, WHITE, which_player_rect)
                                     font = pygame.font.Font('freesansbold.ttf', 25)
                                     which_player_button = font.render("Which player number losses their turn?", True, BLACK)
                                     self.win.blit(which_player_button, which_player_rect)
 
-                                    input_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
+                                    input_rect = pygame.Rect(SQUARE_SIZE * 17, SQUARE_SIZE * 19, TILE_SIZE * 1, TILE_SIZE)
 
 
                                     input_player_num = ''
@@ -229,6 +229,20 @@ class Controller:
                                                 elif event.key == pygame.K_RETURN:
                                                     if input_player_num.isdigit() and int(input_player_num) in range(len(self._players)):
                                                         self._players[int(input_player_num)].skip_next_turn = True
+                                                        end_time = time.time() + 4
+                                                        while time.time() < end_time:
+                                                            self.draw()
+                                                            lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3,
+                                                                                         SQUARE_SIZE * 19,
+                                                                                         TILE_SIZE * 7, TILE_SIZE)
+                                                            pygame.draw.rect(self.win, WHITE, lost_turn_rect)
+                                                            font = pygame.font.Font('freesansbold.ttf', 25)
+
+                                                            lost_turn_button = font.render("Player " + str(
+                                                                input_player_num) + " losses turn", True, BLACK)
+
+                                                            self.win.blit(lost_turn_button, lost_turn_rect)
+                                                            pygame.display.flip()
                                                         player = True
                                                         return True
                                                 else:
@@ -244,7 +258,7 @@ class Controller:
                                 if no_rect.collidepoint((mpos[0], mpos[1])):
                                     end_time = time.time() + 4
                                     while time.time() < end_time:
-                                        lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 5, TILE_SIZE)
+                                        lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 8, TILE_SIZE)
                                         pygame.draw.rect(self.win, WHITE, lost_turn_rect)
                                         font = pygame.font.Font('freesansbold.ttf', 25)
 
