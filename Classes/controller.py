@@ -140,10 +140,13 @@ class Controller:
         return col, row
 
     def next_turn(self):
+
         if self.current_players_turn == len(self._players) - 1:
             self.current_players_turn = 0
         else:
             self.current_players_turn += 1
+        if self._players[self.current_players_turn].skip_next_turn == True:
+            self.next_turn()
         self.pass_out_tiles()
 
     # Player turn display
@@ -171,7 +174,6 @@ class Controller:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mpos = pygame.mouse.get_pos()
-                print(mpos)
                 if button_rect.collidepoint(mpos[0], mpos[1]):
                     while decided is not True:
                         self.draw()
