@@ -119,7 +119,10 @@ class Controller:
                                  (xy[0], xy[1]+1)
                                 ]
             for idx, a in enumerate(adjacent_letters):
-                if a not in self._placed_tiles and self._board._board[a[0]][a[1]].is_tile():
+                if a not in self._placed_tiles \
+                        and 0 < a[0] < 15 \
+                        and 0 < a[1] < 15 \
+                        and self._board._board[a[0]][a[1]].is_tile():
                     # north
                     direction = [0, 0]
                     if idx == 0:
@@ -144,8 +147,8 @@ class Controller:
 
     def calculate_points(self, game_board: Board):
         word_score, double_word_bonus, triple_word_bonus = 0, 0, 0
-        #adjacent_words = self.adjacent_word_points()
-        adjacent_words = 0
+        adjacent_words = self.adjacent_word_points()
+        #adjacent_words = 0
         for i in self._placed_tiles:
             letter_bonus = 0
             if BOARD_PATTERN[i[0]][i[1]] == 'TW':
@@ -392,27 +395,21 @@ class Controller:
                         if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
                             board_grid = (int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE)), int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
                             self._board.place_tile(tile, board_grid)
+                            print(board_grid)
                             self._placed_tiles.append(board_grid)
                             placed = True
 
     def tile_holder_clicks(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
-            # print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
-            # print(mgrid[0])
-
-            # print(mgrid[0])
-            # print(TILE_HOLDER_OFFSET_Y // SQUARE_SIZE)
 
             if TILE_HOLDER_OFFSET_X // SQUARE_SIZE <= mgrid[0] < TILE_HOLDER_OFFSET_X // SQUARE_SIZE + 7 and mgrid[
                 1] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
                 tile_index = int(mgrid[0] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
-                # print(tile_index)
                 player_tiles = self._players[self.current_players_turn].tile_array
                 if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
                     self.tile_placement(player_tiles.pop(tile_index))
-                    # print("TILE: " + str(mgrid[1] - TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
-                    # TODO convert to mouse sticky then place on next click or return to tray
+
 
     def draw(self):
         pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
