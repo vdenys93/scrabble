@@ -12,7 +12,7 @@ from .constants import *
 class Controller:
     def __init__(self, win):
         self._board = Board()
-        self._players = [Player("testone", 1), Player("testtwo", 2)]
+        self._players = [Player("John", 1), Player("George", 2)]
         self._tile_bag = TileBag()
         self._placed_tiles = []
         self.win = win
