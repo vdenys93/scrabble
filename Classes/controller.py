@@ -299,6 +299,8 @@ class Controller:
                                     return True
 
                                 if no_rect.collidepoint((mpos[0], mpos[1])):
+                                    for xy in self._placed_tiles:
+                                        self._board._board[xy[0]][xy[1]] = Tile()
                                     end_time = time.time() + 4
                                     while time.time() < end_time:
                                         lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 8, TILE_SIZE)
