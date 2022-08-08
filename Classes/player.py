@@ -10,6 +10,10 @@ Player class
 class Player:
     PLAYER_NUM = (1, 2, 3, 4)
 
+    #create a list of player nicknames and player scores to be used for scoreboard display
+    nickname_list = []
+    score_list = []
+
     """Player class"""
     def __init__(self, nick_name, player_num, turn_count=0, turn_since_last_placement=0, score=0):
         name_characters = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'-")
@@ -27,10 +31,12 @@ class Player:
         self.player_num = player_num
         self.turn_count = turn_count
         self.turn_since_last_placement = turn_since_last_placement
-        self.score = score
         self.tile_array = []
         self.last_placed_word = [] # (x,y) tuples of location on board
         self.skip_next_turn = False
+        Player.nickname_list.append(nick_name) # Add nickname to the nickname display list for scoreboard
+        Player.score_list.append(score) # Add score to score display list for scoreboard
+        self.score = score
 
     def tile_count(self) -> int:
         non_null_tiles = 0
@@ -38,3 +44,11 @@ class Player:
             if t.is_tile():
                 non_null_tiles += 1
         return non_null_tiles
+
+    #Update the score list for the scoreboard    
+    def update_score_list(self):
+        index = 1
+        while index <= len(Player.score_list):
+            if index == self.player_num:
+                Player.score_list[index - 1] = self.score
+            index += 1

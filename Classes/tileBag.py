@@ -22,7 +22,6 @@ class TileBag:
     def get_tiles(self, count) -> [Tile]:
         if len(self._tiles_in_bag):
             starting_tiles_in_bag = len(self._tiles_in_bag)
-            print(len(self._tiles_in_bag))
             tiles = [self._tiles_in_bag.pop(random.randrange(0, len(self._tiles_in_bag))) for _ in
                      range(min(count, len(self._tiles_in_bag)))]
 

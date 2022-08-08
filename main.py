@@ -12,7 +12,6 @@ def get_row_col_from_mouse(pos):
 
 
 def main():
-    print("anything")
     run = True
     clock = pygame.time.Clock()
 
@@ -28,7 +27,6 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
-                print(row, col)
 
         game_controller.update()
 
