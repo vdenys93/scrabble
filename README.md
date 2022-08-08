@@ -1,3 +1,9 @@
+Added by Alan - 3 August 2022
+
+	Continued PEP 8 organization and structuring.
+	
+	Added tile tray refil feature and increased functionality
+
 Added by Alan - 21 Jul 2022
 
    Changed background color to distinguish the board from the background display
