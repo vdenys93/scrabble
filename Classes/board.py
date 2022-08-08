@@ -23,65 +23,66 @@ class Board:
 
     def draw_scoreboard(self, win, player):
         player.update_score_list()
-        #Set scoreboard dimensions
+        # Set scoreboard dimensions
         scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, DISPLAY_WIDTH - (SQUARE_SIZE * 2), SQUARE_SIZE)
-        #Draw scoreboard and border
+        # Draw scoreboard and border
         pygame.draw.rect(win, LT_GREY, scoreboard_object)
         pygame.draw.rect(win, BLACK, scoreboard_object, 2)
 
-        #Display scoreboard based on number of players
+        # Display scoreboard based on number of players
         if len(player.nickname_list) == 2:
             scoreboard_font = pygame.font.Font('freesansbold.ttf', 32)
             player_one = scoreboard_font.render(player.nickname_list[0] + ":  " + str(player.score_list[0]), True, BLACK, None)
             player_two = scoreboard_font.render(player.nickname_list[1]+":  "+ str(player.score_list[1]), True, BLACK, None)
-            player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.25, SQUARE_SIZE))
-            player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.75, SQUARE_SIZE))
+            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.25, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.75, SQUARE_SIZE))
         elif len(Player.nickname_list) == 3:
             scoreboard_font = pygame.font.Font('freesansbold.ttf', 28)
             player_one = scoreboard_font.render(player.nickname_list[0] + ":  " + str(player.score_list[0]), True, BLACK, None)
             player_two = scoreboard_font.render(player.nickname_list[1]+":  "+ str(player.score_list[1]), True, BLACK, None)
             player_three = scoreboard_font.render(player.nickname_list[2] + ":  " + str(player.score_list[2]), True, BLACK, None)
-            player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.15, SQUARE_SIZE))
-            player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.5, SQUARE_SIZE))
-            player_three_rect = player_three.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.85, SQUARE_SIZE))
+            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.15, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.5, SQUARE_SIZE))
+            player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.85, SQUARE_SIZE))
             win.blit(player_three, player_three_rect)
         elif len(Player.nickname_list) == 4:
             scoreboard_font = pygame.font.Font('freesansbold.ttf', 24)
             player_one = scoreboard_font.render(player.nickname_list[0] + ":  " + str(player.score_list[0]), True, BLACK, None)
-            player_two = scoreboard_font.render(player.nickname_list[1]+":  "+ str(player.score_list[1]), True, BLACK, None)
+            player_two = scoreboard_font.render(player.nickname_list[1]+":  " + str(player.score_list[1]), True, BLACK, None)
             player_three = scoreboard_font.render(player.nickname_list[2] + ":  " + str(player.score_list[2]), True, BLACK, None)
-            player_four = scoreboard_font.render(player.nickname_list[3]+":  "+ str(player.score_list[3]), True, BLACK, None)
+            player_four = scoreboard_font.render(player.nickname_list[3]+":  " + str(player.score_list[3]), True, BLACK, None)
             player_one_rect = player_one.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.1, SQUARE_SIZE))
             player_two_rect = player_two.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.35, SQUARE_SIZE))
             player_three_rect = player_three.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.65, SQUARE_SIZE))
             player_four_rect = player_four.get_rect(center = (SQUARE_SIZE + SCOREBOARD_WIDTH * 0.9, SQUARE_SIZE))
             win.blit(player_three, player_three_rect)
             win.blit(player_four, player_four_rect)
-        #Draw first two players
+        # Draw first two players
         win.blit(player_one, player_one_rect)
         win.blit(player_two, player_two_rect)
 
-
     def draw_tile_holder(self, win, player: Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
-
 
         if player is not None and len(player.tile_array) > 0:
             for idx, tile in enumerate(player.tile_array):
                 if tile.is_tile():
                     tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
-                    #pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
-                    #font = pygame.font.Font('freesansbold.ttf', 25)
-                    #TW_tiles = font.render(tile.get_letter(), True, BLACK)
-                    #win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE, TILE_SIZE))
+                    # pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y,
+                    # TILE_SIZE, TILE_SIZE))
 
+                    # font = pygame.font.Font('freesansbold.ttf', 25)
+
+                    # TW_tiles = font.render(tile.get_letter(), True, BLACK)
+
+                    # win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE,
+                    # TILE_SIZE))
 
     def draw(self, win, player):
         pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
         win.fill(LT_CYAN)
 
-
-        #To Do: Update score list once the submit button is working
+        # ToDo: Update score list once the submit button is working
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
@@ -120,7 +121,7 @@ class Board:
                     win.blit(E_tiles, (123 + (idx * SQUARE_SIZE), 174 + (idy * SQUARE_SIZE)))
                 elif BOARD_PATTERN[idx][idy] == "__":
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
-                    pygame.draw.rect(win, TAN, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
+                    pygame.draw.rect(win, TAN, (BOARD_OFFSET_X + 2 + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
         self.draw_tile_holder(win, player)
         self.draw_scoreboard(win, player)
 
@@ -128,6 +129,7 @@ class Board:
             for idy, tile in enumerate(row):
                 if tile.is_tile():
                     tile.draw(win, (idx*SQUARE_SIZE) + BOARD_OFFSET_X, idy*SQUARE_SIZE + BOARD_OFFSET_Y)
-                    #font = pygame.font.Font('freesansbold.ttf', 25)
-                    #TW_tiles = font.render(col.get_letter(), True, BLACK)
-                    #win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), TILE_SIZE, TILE_SIZE))
+                    # font = pygame.font.Font('freesansbold.ttf', 25)
+                    # TW_tiles = font.render(col.get_letter(), True, BLACK)
+                    # win.blit(TW_tiles, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE),
+                    # TILE_SIZE, TILE_SIZE))
