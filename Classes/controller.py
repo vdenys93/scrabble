@@ -334,6 +334,30 @@ class Controller:
         # if self._tile_bag.get_tile_count() > 1:
             # player_tiles += self._tile_bag.get_tiles(1)
         return True
+    def discard_button(self, event) -> bool:
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 9, TILE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 24)
+        discard_button = font.render("Discard", True, BLACK)
+        discard_button_rect = font.render("Discard", True, BLACK)
+        discard_button_rect = discard_button.get_rect(center = (4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 9.5))
+        self.win.blit(discard_button, discard_button_rect)
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mpos = pygame.mouse.get_pos()
+
+            if button_rect.collidepoint(mpos[0], mpos[1]):
+                self._players[self.current_players_turn].tile_array.pop(0)
+
+                self.pass_out_tiles()
+
+
+                print("COLLISION")
+
+                return False
+        # if self._tile_bag.get_tile_count() > 1:
+            # player_tiles += self._tile_bag.get_tiles(1)
+        return True
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
@@ -440,6 +464,7 @@ class Controller:
                 self.tile_holder_clicks(event)
                 self.draw()
                 self.end_game(event)
+                self.discard_button(event)
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
