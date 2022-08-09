@@ -10,7 +10,7 @@ Player class
 class Player:
     PLAYER_NUM = (1, 2, 3, 4)
 
-    #create a list of player nicknames and player scores to be used for scoreboard display
+    # create a list of player nicknames and player scores to be used for scoreboard display
     nickname_list = []
     score_list = []
 
@@ -45,7 +45,7 @@ class Player:
                 non_null_tiles += 1
         return non_null_tiles
 
-    #Update the score list for the scoreboard    
+    # Update the score list for the scoreboard
     def update_score_list(self):
         index = 1
         while index <= len(Player.score_list):

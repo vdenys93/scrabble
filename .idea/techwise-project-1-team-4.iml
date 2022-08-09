@@ -5,10 +5,14 @@
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <orderEntry type="inheritedJdk" />
 =======
     <orderEntry type="jdk" jdkName="Python 3.10 (techwise-project-1-team-4)" jdkType="Python SDK" />
 >>>>>>> cbfe27740322bac4f0a4d012d737f93eb9850c21
+=======
+    <orderEntry type="jdk" jdkName="Python 3.10" jdkType="Python SDK" />
+>>>>>>> 27efb80ddab0cf0d176c8a9dd44c3ba61970cf2a
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
