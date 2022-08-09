@@ -345,15 +345,9 @@ class Controller:
         self.win.blit(discard_button, discard_button_rect)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
-
             if button_rect.collidepoint(mpos[0], mpos[1]):
                 self._players[self.current_players_turn].tile_array.pop(0)
-
                 self.pass_out_tiles()
-
-
-                print("COLLISION")
-
                 return False
         # if self._tile_bag.get_tile_count() > 1:
             # player_tiles += self._tile_bag.get_tiles(1)
