@@ -57,8 +57,8 @@ class Controller:
 
                 pygame.draw.rect(win, WHITE, input_rect)
                 text_surface = input_font.render(user_text, True, BLACK)
-                win.blit(text_surface, (input_rect.x+5, input_rect.y+5))
-                input_rect.w = max(100, text_surface.get_width()+10)
+                win.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
+                input_rect.w = max(100, text_surface.get_width() + 10)
                 pygame.display.flip()
 
             self._players.append(Player(user_text, player_number))
@@ -91,8 +91,8 @@ class Controller:
 
             pygame.draw.rect(win, WHITE, input_rect)
             text_surface = input_font.render(user_text, True, BLACK)
-            win.blit(text_surface, (input_rect.x+5, input_rect.y+5))
-            input_rect.w = max(100, text_surface.get_width()+10)
+            win.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
+            input_rect.w = max(100, text_surface.get_width() + 10)
             pygame.display.flip()
 
         self.create_player(int(user_text))
@@ -106,15 +106,8 @@ class Controller:
                 player.tile_array = player.tile_array + (self._tile_bag.get_tiles(count))
 
     def shuffle_tile_rack(self):
-        # temp_tile_array = []
-        # for player in self._players:
-        #     for tile in player.tile_array:
-        #         index = random.randint(0, 6)
-        #         while temp_tile_array[index].isempty():
-        #             temp_tile_array[index] = player.tile_array[tile]
-
-        #    player.tile_array = temp_tile_array
-        pass
+        for player in self._players:
+            random.shuffle(player.tile_array)
 
     def start(self, win):
         # get_player_count(win)
@@ -123,11 +116,11 @@ class Controller:
     def adjacent_word_points(self):
         score_total = 0
         for xy in self._placed_tiles:
-            adjacent_letters = [(xy[0], xy[1]-1),
+            adjacent_letters = [(xy[0], xy[1] - 1),
 
-            (xy[0]-1, xy[1]),                    (xy[0]+1, xy[1]),
+                                (xy[0] - 1, xy[1]), (xy[0] + 1, xy[1]),
 
-                                 (xy[0], xy[1]+1)
+                                (xy[0], xy[1] + 1)
                                 ]
             for idx, a in enumerate(adjacent_letters):
                 if a not in self._placed_tiles \
@@ -205,16 +198,16 @@ class Controller:
         button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
-        font = pygame.font.Font('freesansbold.ttf', 24)
-        submit_button = font.render("Player: " + str((self.current_players_turn)+1), True, BLACK)
-        submit_button_rect = font.render("Player: " + str((self.current_players_turn)+1), True, BLACK)
+        font = pygame.font.Font('freesansbold.ttf', 22)
+        submit_button = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
+        submit_button_rect = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
         submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
         self.win.blit(submit_button, submit_button_rect)
 
     def challenge(self) -> bool:
         button_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 18, SQUARE_SIZE * 5.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
-        font = pygame.font.Font('freesansbold.ttf', 25)
+        font = pygame.font.Font('freesansbold.ttf', 22)
         submit_button = font.render("Challenge Word!", True, BLACK)
         self.win.blit(submit_button, button_rect)
 
@@ -230,7 +223,7 @@ class Controller:
                         self.draw()
                         valid_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 17, TILE_SIZE * 7, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, valid_rect)
-                        font = pygame.font.Font('freesansbold.ttf', 25)
+                        font = pygame.font.Font('freesansbold.ttf', 22)
                         valid_button = font.render("Is the word valid?", True, BLACK)
                         self.win.blit(valid_button, valid_rect)
 
@@ -253,13 +246,16 @@ class Controller:
                                 mpos = pygame.mouse.get_pos()
 
                                 if yes_rect.collidepoint(mpos[0], mpos[1]):
-                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 15, TILE_SIZE)
+                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 15,
+                                                                    TILE_SIZE)
                                     pygame.draw.rect(self.win, WHITE, which_player_rect)
-                                    font = pygame.font.Font('freesansbold.ttf', 25)
-                                    which_player_button = font.render("Which player number losses their turn?", True, BLACK)
+                                    font = pygame.font.Font('freesansbold.ttf', 22)
+                                    which_player_button = font.render("Which player number losses their turn?", True,
+                                                                      BLACK)
                                     self.win.blit(which_player_button, which_player_rect)
 
-                                    input_rect = pygame.Rect(SQUARE_SIZE * 17, SQUARE_SIZE * 19, TILE_SIZE * 1, TILE_SIZE)
+                                    input_rect = pygame.Rect(SQUARE_SIZE * 17, SQUARE_SIZE * 19, TILE_SIZE * 1,
+                                                             TILE_SIZE)
 
                                     input_player_num = ''
                                     player = False
@@ -279,7 +275,8 @@ class Controller:
                                                     input_player_num = input_player_num[:-1]
 
                                                 elif event.key == pygame.K_RETURN:
-                                                    if input_player_num.isdigit() and int(input_player_num) in range(len(self._players)):
+                                                    if input_player_num.isdigit() and int(input_player_num) in range(
+                                                            len(self._players)):
                                                         self._players[int(input_player_num)].skip_next_turn = True
                                                         end_time = time.time() + 4
                                                         while time.time() < end_time:
@@ -288,7 +285,7 @@ class Controller:
                                                                                          SQUARE_SIZE * 19,
                                                                                          TILE_SIZE * 7, TILE_SIZE)
                                                             pygame.draw.rect(self.win, WHITE, lost_turn_rect)
-                                                            font = pygame.font.Font('freesansbold.ttf', 25)
+                                                            font = pygame.font.Font('freesansbold.ttf', 22)
 
                                                             lost_turn_button = font.render("Player " + str(
                                                                 input_player_num) + " losses turn", True, BLACK)
@@ -313,11 +310,14 @@ class Controller:
                                         self._board._board[xy[0]][xy[1]] = Tile()
                                     end_time = time.time() + 4
                                     while time.time() < end_time:
-                                        lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 8, TILE_SIZE)
+                                        lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 8,
+                                                                     TILE_SIZE)
                                         pygame.draw.rect(self.win, WHITE, lost_turn_rect)
-                                        font = pygame.font.Font('freesansbold.ttf', 25)
+                                        font = pygame.font.Font('freesansbold.ttf', 22)
 
-                                        lost_turn_button = font.render("Player " + str(self._players[self.current_players_turn].player_num) + " losses turn", True, BLACK)
+                                        lost_turn_button = font.render("Player " + str(
+                                            self._players[self.current_players_turn].player_num) + " losses turn", True,
+                                                                       BLACK)
                                         # TODO return new tiles to bag from player hand
                                         self.win.blit(lost_turn_button, lost_turn_rect)
                                         pygame.display.flip()
@@ -334,7 +334,8 @@ class Controller:
         pygame.draw.rect(self.win, GREY, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         pass_button = font.render('Pass', True, BLACK)
-        pass_button_rect = pass_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        pass_button_rect = pass_button.get_rect(
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(pass_button, pass_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -343,7 +344,7 @@ class Controller:
                 self._players[self.current_players_turn].turn_since_last_placement += 1
                 return False
         # if self._tile_bag.get_tile_count() > 1:
-            # player_tiles += self._tile_bag.get_tiles(1)
+        # player_tiles += self._tile_bag.get_tiles(1)
         return True
 
     def discard_button(self, event) -> bool:
@@ -362,13 +363,13 @@ class Controller:
                 self.pass_out_tiles()
                 return False
         # if self._tile_bag.get_tile_count() > 1:
-            # player_tiles += self._tile_bag.get_tiles(1)
+        # player_tiles += self._tile_bag.get_tiles(1)
         return True
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, button_rect)
-        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 20)
         shuffle_button = font.render('Shuffle', True, BLACK)
         shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 12.5))
@@ -378,11 +379,13 @@ class Controller:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
                 self.shuffle_tile_rack()
+                return False
+        return True
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, button_rect)
-        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 20)
         end_game_button = font.render('End Game', True, BLACK)
         end_game_button_rect = end_game_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
@@ -401,7 +404,7 @@ class Controller:
         pygame.draw.rect(self.win, GREY, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         submit_button = font.render('Submit Word', True, BLACK)
-        submit_button_rect = submit_button.get_rect(center=(SQUARE_SIZE * 3.5, SQUARE_SIZE * 18 +(TILE_SIZE * .5)))
+        submit_button_rect = submit_button.get_rect(center=(SQUARE_SIZE * 3.5, SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(submit_button, submit_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -444,9 +447,12 @@ class Controller:
                     mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
 
                     # board placement
-                    if BOARD_OFFSET_X < mpos[0] < BOARD_OFFSET_X + BOARD_WIDTH and BOARD_OFFSET_Y < mpos[1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
-                        if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
-                            board_grid = (int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE)), int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
+                    if BOARD_OFFSET_X < mpos[0] < BOARD_OFFSET_X + BOARD_WIDTH and BOARD_OFFSET_Y < mpos[
+                        1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
+                        if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][
+                            int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
+                            board_grid = (int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE)),
+                                          int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
                             self._board.place_tile(tile, board_grid)
                             print(board_grid)
                             self._placed_tiles.append(board_grid)
@@ -475,7 +481,7 @@ class Controller:
             self._players[self.current_players_turn].skip_next_turn = False
 
         while turn:
-            pygame.event.post(pygame.event.Event(pygame.USEREVENT+1))
+            pygame.event.post(pygame.event.Event(pygame.USEREVENT + 1))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -493,7 +499,5 @@ class Controller:
                 pygame.display.flip()
 
         # draw on mouse()#TODO waiting for tiles to draw themselves
-            # TODO add buttons to submit word, pass
+        # TODO add buttons to submit word, pass
         self.next_turn()
-
-
