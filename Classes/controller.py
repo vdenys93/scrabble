@@ -208,7 +208,7 @@ class Controller:
         button_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 18, SQUARE_SIZE * 5.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
-        font = pygame.font.Font('freesansbold.ttf', 22)
+        font = pygame.font.Font('freesansbold.ttf', 20)
         submit_button = font.render("Challenge Word!", True, BLACK)
         submit_button_rect = font.render("Challenge Word!", True, BLACK)
         submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 18.5))
@@ -397,8 +397,8 @@ class Controller:
     def submit_word(self, event) -> bool:
         # Draw Submit word button
         button_rect = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, button_rect)
-        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         submit_button = font.render('Submit Word', True, BLACK)
         submit_button_rect = submit_button.get_rect(center=(SQUARE_SIZE * 3.5, SQUARE_SIZE * 18 + (TILE_SIZE * .5)))

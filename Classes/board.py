@@ -26,7 +26,7 @@ class Board:
         # Set scoreboard dimensions
         scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, DISPLAY_WIDTH - (SQUARE_SIZE * 2), SQUARE_SIZE)
         # Draw scoreboard and border
-        pygame.draw.rect(win, LT_GREY, scoreboard_object)
+        pygame.draw.rect(win, WHITE, scoreboard_object)
         pygame.draw.rect(win, BLACK, scoreboard_object, 2)
 
         # Display scoreboard based on number of players
