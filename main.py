@@ -14,9 +14,10 @@ def get_row_col_from_mouse(pos):
 def main():
     run = True
     clock = pygame.time.Clock()
+    win.fill(LT_CYAN)
 
     game_controller = Controller(win)
-    game_controller.start(win)
+
 
     while run:
         clock.tick(FPS)
@@ -28,7 +29,11 @@ def main():
                 pos = pygame.mouse.get_pos()
                 row, col = get_row_col_from_mouse(pos)
 
-        game_controller.update()
+        game_controller.get_player_count(win, event)
+        player_selection_completed = game_controller.player_selection_is_complete
+        game_controller.start(win)
+        while player_selection_completed:
+            game_controller.update()
 
         # Make the most recently drawn screen visible
         pygame.display.flip()
@@ -43,4 +48,3 @@ if __name__ == '__main__':
     pygame.display.set_caption("Scrabble")
     pygame.init()
     main()
-
