@@ -1,6 +1,6 @@
 # import pygame
 import sys
-
+import random
 import time
 from .board import Board
 from .player import Player
@@ -105,6 +105,17 @@ class Controller:
                 count = 7 - len(player.tile_array)
                 player.tile_array = player.tile_array + (self._tile_bag.get_tiles(count))
 
+    def shuffle_tile_rack(self):
+        # temp_tile_array = []
+        # for player in self._players:
+        #     for tile in player.tile_array:
+        #         index = random.randint(0, 6)
+        #         while temp_tile_array[index].isempty():
+        #             temp_tile_array[index] = player.tile_array[tile]
+
+        #    player.tile_array = temp_tile_array
+        pass
+
     def start(self, win):
         # get_player_count(win)
         self.pass_out_tiles()
@@ -195,8 +206,8 @@ class Controller:
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
-        submit_button = font.render("Player: " + str(self.current_players_turn), True, BLACK)
-        submit_button_rect = font.render("Player: " + str(self.current_players_turn), True, BLACK)
+        submit_button = font.render("Player: " + str((self.current_players_turn)+1), True, BLACK)
+        submit_button_rect = font.render("Player: " + str((self.current_players_turn)+1), True, BLACK)
         submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
         self.win.blit(submit_button, submit_button_rect)
 
@@ -334,6 +345,7 @@ class Controller:
         # if self._tile_bag.get_tile_count() > 1:
             # player_tiles += self._tile_bag.get_tiles(1)
         return True
+
     def discard_button(self, event) -> bool:
         button_rect = pygame.Rect(4, SQUARE_SIZE * 9, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
@@ -341,7 +353,7 @@ class Controller:
         font = pygame.font.Font('freesansbold.ttf', 24)
         discard_button = font.render("Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
-        discard_button_rect = discard_button.get_rect(center = (4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 9.5))
+        discard_button_rect = discard_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 9.5))
         self.win.blit(discard_button, discard_button_rect)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
@@ -352,6 +364,20 @@ class Controller:
         # if self._tile_bag.get_tile_count() > 1:
             # player_tiles += self._tile_bag.get_tiles(1)
         return True
+
+    def shuffle_tiles_button(self, event):
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 20)
+        shuffle_button = font.render('Shuffle', True, BLACK)
+        shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 12.5))
+        self.win.blit(shuffle_button, shuffle_button_rect)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mpos = pygame.mouse.get_pos()
+            if button_rect.collidepoint(mpos[0], mpos[1]):
+                self.shuffle_tile_rack()
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
@@ -457,6 +483,7 @@ class Controller:
 
                 self.tile_holder_clicks(event)
                 self.draw()
+                self.shuffle_tiles_button(event)
                 self.end_game(event)
                 self.discard_button(event)
                 turn = self.submit_word(event)
