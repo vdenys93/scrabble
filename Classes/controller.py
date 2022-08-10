@@ -12,11 +12,12 @@ from .constants import *
 class Controller:
     def __init__(self, win):
         self._board = Board()
-        self._players = [Player("John", 1), Player("George", 2)]
+        self._players = []
         self._tile_bag = TileBag()
         self._placed_tiles = []
         self.win = win
         self.current_players_turn = 0  # by index
+        self.player_selection_is_complete = False
 
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
@@ -30,72 +31,63 @@ class Controller:
         text_rect = text.get_rect()
         text_rect.center = (x // 2, y // 2)
 
-    def create_player(self, win, count):
-        input_font = pygame.font.Font('freesansbold.ttf', 20)
-        user_text = ''
-        input_rect = pygame.Rect(300, 300, 300, 100)
+    def create_players(self, number_of_players):
+        #Create First Two Players
+        self._players.append(Player("Player 1", 1))
+        self._players.append(Player("Player 2", 2))
 
-        entered = False
+        #Add Additional Players
+        if number_of_players == 3:
+            self._players.append(Player("Player 3", 3))
+        elif number_of_players == 4:
+            self._players.append(Player("Player 3", 3))
+            self._players.append(Player("Player 4", 4))
 
-        for player_number in range(count):
-            while entered is False:
-                message_font = pygame.font.Font('freesansbold.ttf', 16)
-                display_message = message_font.render("Player " + str(player_number) + " NickName?", True, BLACK)
-                win.blit(display_message, (200, 200, 200, 100))
+    def get_player_count(self, win, event):
+        scrabble_font = pygame.font.Font('freesansbold.ttf', 32)
+        font = pygame.font.Font('freesansbold.ttf', 24)
+        #Text Display
+        welcome_text = scrabble_font.render('Welcome to Scrabble!', True, BLACK)
+        self.win.blit(welcome_text, (175, 75))
+        how_many_players_text = font.render('Enter the Number of Players', True, BLACK)
+        self.win.blit(how_many_players_text, (175, 180))
 
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_BACKSPACE:
-                            user_text = user_text[:-1]
-                        elif event.key == pygame.K_KP_ENTER:
-                            entered = True
-                        else:
-                            user_text += event.unicode
+        #Two Person Selection Button
+        two_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 7, SQUARE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, two_player_button)
+        pygame.draw.rect(self.win, GREY, two_player_button, 1)
+        two_player_text = font.render('2', True, BLACK)
+        two_text_rect = two_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 7 + (TILE_SIZE * .5)))
+        self.win.blit(two_player_text, two_text_rect)
 
-                pygame.draw.rect(win, WHITE, input_rect)
-                text_surface = input_font.render(user_text, True, BLACK)
-                win.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
-                input_rect.w = max(100, text_surface.get_width() + 10)
-                pygame.display.flip()
+        #Three Person Selection Button
+        three_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 11, SQUARE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, three_player_button)
+        pygame.draw.rect(self.win, GREY, three_player_button, 1)
+        three_player_text = font.render('3', True, BLACK)
+        three_text_rect = three_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 11 + (TILE_SIZE * .5)))
+        self.win.blit(three_player_text, three_text_rect)
 
-            self._players.append(Player(user_text, player_number))
+        #Four Person Selection Button
+        four_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 15, SQUARE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, LT_GREY, four_player_button)
+        pygame.draw.rect(self.win, GREY, four_player_button, 1)
+        four_player_text = font.render('4', True, BLACK)
+        four_text_rect = four_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 15 + (TILE_SIZE * .5)))
+        self.win.blit(four_player_text, four_text_rect)
 
-    def get_player_count(self, win):
-        input_font = pygame.font.Font('freesansbold.ttf', 20)
-        user_text = ''
-        input_rect = pygame.Rect(300, 300, 300, 100)
-
-        entered = False
-
-        while entered is False:
-            message_font = pygame.font.Font('freesansbold.ttf', 16)
-            display_message = message_font.render("How many players?", True, BLACK)
-            win.blit(display_message, (200, 200, 200, 100))
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE:
-                        user_text = user_text[:-1]
-                    elif event.key == pygame.K_KP_ENTER:
-                        if user_text.isdigit():
-                            if 0 < int(user_text) < 5:
-                                entered = True
-                else:
-                    user_text += event.unicode
-
-            pygame.draw.rect(win, WHITE, input_rect)
-            text_surface = input_font.render(user_text, True, BLACK)
-            win.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
-            input_rect.w = max(100, text_surface.get_width() + 10)
-            pygame.display.flip()
-
-        self.create_player(int(user_text))
+        #Create Players based on button selected
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mpos = pygame.mouse.get_pos()
+            if two_player_button.collidepoint(mpos[0], mpos[1]):
+                self.create_players(2)
+                self.player_selection_is_complete = True
+            elif three_player_button.collidepoint(mpos[0], mpos[1]):
+                self.create_players(3)
+                self.player_selection_is_complete = True
+            elif four_player_button.collidepoint(mpos[0], mpos[1]):
+                self.create_players(4)
+                self.player_selection_is_complete = True
 
     def pass_out_tiles(self):
         for player in self._players:
