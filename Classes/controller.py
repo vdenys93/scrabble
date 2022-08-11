@@ -322,13 +322,13 @@ class Controller:
     # def clicked_tile(self):
     def pass_button(self, event) -> bool:
         # Draw Pass Button
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 14, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         pass_button = font.render('Pass', True, BLACK)
         pass_button_rect = pass_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+            center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 14.5))
         self.win.blit(pass_button, pass_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -339,13 +339,13 @@ class Controller:
         return True
 
     def discard_button(self, event) -> bool:
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 9, TILE_SIZE * 3, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 8, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         discard_button = font.render("Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
-        discard_button_rect = discard_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 9.5))
+        discard_button_rect = discard_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 8.5))
         self.win.blit(discard_button, discard_button_rect)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
@@ -356,12 +356,12 @@ class Controller:
         return True
 
     def shuffle_tiles_button(self, event):
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 10, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 22)
         shuffle_button = font.render('Shuffle', True, BLACK)
-        shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 12.5))
+        shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 10.5))
         self.win.blit(shuffle_button, shuffle_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
