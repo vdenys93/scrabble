@@ -91,6 +91,7 @@ class Controller:
                 self.player_selection_is_complete = True
 
     def pass_out_tiles(self):
+        random.shuffle(self._tile_bag._tiles_in_bag)
         for player in self._players:
             if len(player.tile_array) == 0:
                 player.tile_array = self._tile_bag.get_tiles(7)
@@ -305,6 +306,7 @@ class Controller:
                                         temp_list.append(self._temp_tile)
                                         self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
                                         self._board._board[xy[0]][xy[1]] = Tile()
+                                        # TODO return new tiles to bag from player hand - complete
                                     end_time = time.time() + 4
                                     while time.time() < end_time:
                                         lost_turn_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 8,
@@ -316,7 +318,6 @@ class Controller:
                                         lost_turn_button = font.render("Player " + str(
                                             self._players[self.current_players_turn].player_num) + " losses turn", True,
                                                                        BLACK)
-                                        # TODO return new tiles to bag from player hand
                                         self.win.blit(lost_turn_button, lost_turn_rect)
                                         pygame.display.flip()
                                         decided = True
