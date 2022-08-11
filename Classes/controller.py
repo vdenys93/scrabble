@@ -300,6 +300,10 @@ class Controller:
 
                                 if no_rect.collidepoint((mpos[0], mpos[1])):
                                     for xy in self._placed_tiles:
+                                        self._temp_tile = self._board._board[xy[0]][xy[1]]
+                                        temp_list = []
+                                        temp_list.append(self._temp_tile)
+                                        self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
                                         self._board._board[xy[0]][xy[1]] = Tile()
                                     end_time = time.time() + 4
                                     while time.time() < end_time:
@@ -389,7 +393,8 @@ class Controller:
                     temp_list = []
                     temp_list.append(self._temp_tile)
                     for player in self._players:
-                        player.tile_array = player.tile_array + temp_list
+                        if len(player.tile_array) < 7:
+                            player.tile_array = player.tile_array + temp_list
                     self._board._board[xy[0]][xy[1]] = Tile()
                 return False
         return True
