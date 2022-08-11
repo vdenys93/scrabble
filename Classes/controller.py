@@ -327,8 +327,7 @@ class Controller:
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         pass_button = font.render('Pass', True, BLACK)
-        pass_button_rect = pass_button.get_rect(
-            center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 14.5))
+        pass_button_rect = pass_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 14.5))
         self.win.blit(pass_button, pass_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -370,6 +369,23 @@ class Controller:
                 self.shuffle_tile_rack()
                 return False
         return True
+
+    def reset_word_button(self, event):
+            button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
+            pygame.draw.rect(self.win, WHITE, button_rect)
+            pygame.draw.rect(self.win, BLACK, button_rect, 1)
+            font = pygame.font.Font('freesansbold.ttf', 22)
+            shuffle_button = font.render('Reset', True, BLACK)
+            shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 12.5))
+            self.win.blit(shuffle_button, shuffle_button_rect)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mpos = pygame.mouse.get_pos()
+                if button_rect.collidepoint(mpos[0], mpos[1]):
+                    for xy in self._placed_tiles:
+                        self._board._board[xy[0]][xy[1]] = Tile()
+                    return False
+            return True
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
@@ -478,9 +494,10 @@ class Controller:
 
                 self.tile_holder_clicks(event)
                 self.draw()
-                self.shuffle_tiles_button(event)
                 self.end_game(event)
                 self.discard_button(event)
+                self.shuffle_tiles_button(event)
+                self.reset_word_button(event)
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
