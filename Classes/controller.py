@@ -374,8 +374,8 @@ class Controller:
             button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
             pygame.draw.rect(self.win, WHITE, button_rect)
             pygame.draw.rect(self.win, BLACK, button_rect, 1)
-            font = pygame.font.Font('freesansbold.ttf', 22)
-            shuffle_button = font.render('Reset', True, BLACK)
+            font = pygame.font.Font('freesansbold.ttf', 17)
+            shuffle_button = font.render('Reset Word', True, BLACK)
             shuffle_button_rect = shuffle_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 12.5))
             self.win.blit(shuffle_button, shuffle_button_rect)
 
@@ -384,6 +384,8 @@ class Controller:
                 if button_rect.collidepoint(mpos[0], mpos[1]):
                     for xy in self._placed_tiles:
                         self._board._board[xy[0]][xy[1]] = Tile()
+                        for player in self._players:
+                            player.tile_array = player.tile_array
                     return False
             return True
 
