@@ -14,6 +14,7 @@ class Controller:
         self._board = Board()
         self._players = []
         self._tile_bag = TileBag()
+        self._temp_tile = Tile()
         self._placed_tiles = []
         self.win = win
         self.current_players_turn = 0  # by index
@@ -384,10 +385,12 @@ class Controller:
             mpos = pygame.mouse.get_pos()
             if button_rect.collidepoint(mpos[0], mpos[1]):
                 for xy in self._placed_tiles:
-                    self._board._board[xy[0]][xy[1]] = Tile()
+                    self._temp_tile = self._board._board[xy[0]][xy[1]]
                     temp_list = []
+                    temp_list.append(self._temp_tile)
                     for player in self._players:
                         player.tile_array = player.tile_array + temp_list
+                    self._board._board[xy[0]][xy[1]] = Tile()
                 return False
         return True
 
