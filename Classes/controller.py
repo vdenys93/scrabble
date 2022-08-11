@@ -187,13 +187,13 @@ class Controller:
 
     # Player turn display
     def player_turn_display(self):
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, TAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 22)
         submit_button = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
         submit_button_rect = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
-        submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
+        submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
         self.win.blit(submit_button, submit_button_rect)
 
     def challenge(self) -> bool:
@@ -372,12 +372,12 @@ class Controller:
         return True
 
     def end_game(self, event):
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         end_game_button = font.render('End Game', True, BLACK)
-        end_game_button_rect = end_game_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
+        end_game_button_rect = end_game_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
         self.win.blit(end_game_button, end_game_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
