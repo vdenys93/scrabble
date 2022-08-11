@@ -265,9 +265,9 @@ class Controller:
                                                     input_player_num = input_player_num[:-1]
 
                                                 elif event.key == pygame.K_RETURN:
-                                                    if input_player_num.isdigit() and int(input_player_num) in range(
+                                                    if input_player_num.isdigit() and int(input_player_num)-1 in range(
                                                             len(self._players)):
-                                                        self._players[int(input_player_num)].skip_next_turn = True
+                                                        self._players[(int(input_player_num)-1)].skip_next_turn = True
                                                         end_time = time.time() + 4
                                                         while time.time() < end_time:
                                                             self.draw()
@@ -484,9 +484,6 @@ class Controller:
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
-
                 pygame.display.flip()
 
-        # draw on mouse()#TODO waiting for tiles to draw themselves
-        # TODO add buttons to submit word, pass
         self.next_turn()
