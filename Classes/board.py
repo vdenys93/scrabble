@@ -80,9 +80,9 @@ class Board:
 
     def draw(self, win, player):
         pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
-        win.fill(LT_CYAN)
+        win.fill(YELLOW)
 
-        # ToDo: Update score list once the submit button is working
+        # ToDo: Update score list once the submit button is working - Complete
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
@@ -94,28 +94,28 @@ class Board:
                     win.blit(TW_tiles, (BOARD_OFFSET_X + 8 + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                 elif BOARD_PATTERN[idx][idy] == 'DW':
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
-                    pygame.draw.rect(win, LT_MAGENTA, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
+                    pygame.draw.rect(win, LT_MAGENTA, (BOARD_OFFSET_X + 2 + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
                     font = pygame.font.Font('freesansbold.ttf', 16)
                     DW_tiles = font.render("DW", True, BLACK)
-                    win.blit(DW_tiles, (BOARD_OFFSET_X + 8+ (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
+                    win.blit(DW_tiles, (BOARD_OFFSET_X + 6 + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                 elif BOARD_PATTERN[idx][idy] == 'TL':
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
-                    pygame.draw.rect(win, CYAN, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
+                    pygame.draw.rect(win, CYAN, (BOARD_OFFSET_X + 2 + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
                     font = pygame.font.Font('freesansbold.ttf', 16)
                     TL_tiles = font.render("TL", True, BLACK)
                     win.blit(TL_tiles, (BOARD_OFFSET_X + 8+ (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                 elif BOARD_PATTERN[idx][idy] == 'DL':
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
-                    pygame.draw.rect(win, LT_CYAN, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
+                    pygame.draw.rect(win, LT_CYAN, (BOARD_OFFSET_X + 2 + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
                     font = pygame.font.Font('freesansbold.ttf', 16)
                     DL_tiles = font.render("DL", True, BLACK)
-                    win.blit(DL_tiles, (BOARD_OFFSET_X + 8+ (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
+                    win.blit(DL_tiles, (BOARD_OFFSET_X + 8 + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                 elif BOARD_PATTERN[idx][idy] == 'ST':
                     pygame.draw.rect(win, BLACK, (BOARD_OFFSET_X + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + (idy * SQUARE_SIZE), SQUARE_SIZE, SQUARE_SIZE))
-                    pygame.draw.rect(win, LT_MAGENTA, (BOARD_OFFSET_X + 2  + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
+                    pygame.draw.rect(win, LT_MAGENTA, (BOARD_OFFSET_X + 2 + (idx * SQUARE_SIZE), (BOARD_OFFSET_Y + 2) + (idy * SQUARE_SIZE), SQUARE_SIZE-4, SQUARE_SIZE-4))
                     font = pygame.font.Font('freesansbold.ttf', 16)
                     ST_tiles = font.render("ST", True, BLACK)
-                    win.blit(ST_tiles, (BOARD_OFFSET_X + 8+ (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
+                    win.blit(ST_tiles, (BOARD_OFFSET_X + 8 + (idx * SQUARE_SIZE), BOARD_OFFSET_Y + 14 + (idy * SQUARE_SIZE)))
                     font = pygame.font.Font('freesansbold.ttf', 6)
                     E_tiles = font.render("1", True, BLACK)
                     win.blit(E_tiles, (123 + (idx * SQUARE_SIZE), 174 + (idy * SQUARE_SIZE)))

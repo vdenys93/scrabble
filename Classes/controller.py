@@ -329,7 +329,7 @@ class Controller:
     def pass_button(self, event) -> bool:
         # Draw Pass Button
         button_rect = pygame.Rect(4, SQUARE_SIZE * 14, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, CYAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 17)
         pass_button = font.render('Pass Turn', True, BLACK)
@@ -363,7 +363,7 @@ class Controller:
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, CYAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 16)
         shuffle_button = font.render('Shuffle Tiles', True, BLACK)
@@ -379,7 +379,7 @@ class Controller:
 
     def reset_word_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 10, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, CYAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 16)
         shuffle_button = font.render('Reset Word', True, BLACK)
@@ -402,7 +402,7 @@ class Controller:
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, LT_MAGENTA, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         end_game_button = font.render('End Game', True, BLACK)
