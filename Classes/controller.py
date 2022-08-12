@@ -344,7 +344,7 @@ class Controller:
                 return False
         return True
 
-    def discard_button(self, event) -> bool:
+    def discard_button(self) :
         button_rect = pygame.Rect (BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
@@ -353,13 +353,6 @@ class Controller:
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mpos = pygame.mouse.get_pos()
-            if button_rect.collidepoint(mpos[0], mpos[1]):
-                self._players[self.current_players_turn].tile_array.pop(0)
-                self.pass_out_tiles()
-                return False
-        return True
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
@@ -491,6 +484,7 @@ class Controller:
         pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
         self._board.draw(self.win, self._players[self.current_players_turn])
         self.player_turn_display()
+        self.discard_button()
 
     def update(self):
         turn = True
@@ -510,7 +504,7 @@ class Controller:
                 self.shuffle_tiles_button(event)
                 self.reset_word_button(event)
                 self.end_game(event)
-                self.discard_button(event)
+
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
