@@ -198,6 +198,16 @@ class Controller:
         submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
         self.win.blit(submit_button, submit_button_rect)
 
+    def tile_count_display(self):
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 4, TILE_SIZE * 3, SQUARE_SIZE)
+        pygame.draw.rect(self.win, TAN, button_rect)
+        pygame.draw.rect(self.win, BLACK, button_rect, 1)
+        font = pygame.font.Font('freesansbold.ttf', 12)
+        tile_count_display_button = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
+        tile_count_display_button_rect = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
+        tile_count_display_button_rect = tile_count_display_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 4.5))
+        self.win.blit(tile_count_display_button, tile_count_display_button_rect)
+
     def challenge(self) -> bool:
         button_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 18, SQUARE_SIZE * 5.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
@@ -394,12 +404,12 @@ class Controller:
         return True
 
     def end_game(self, event):
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 6, TILE_SIZE * 3, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 7, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, LT_MAGENTA, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         end_game_button = font.render('End Game', True, BLACK)
-        end_game_button_rect = end_game_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 6.5))
+        end_game_button_rect = end_game_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 7.5))
         self.win.blit(end_game_button, end_game_button_rect)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -484,6 +494,7 @@ class Controller:
         pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
         self._board.draw(self.win, self._players[self.current_players_turn])
         self.player_turn_display()
+        self.tile_count_display()
         self.discard_button()
 
     def update(self):

@@ -76,7 +76,7 @@ TILE_SCORES = {'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4, '
 
 
 # Player constants
-MAX_PLAYERS = 2    # Max players can be changed to a user entry later.
+MAX_PLAYERS = 2    # Max players is used for testing purposes
 MAX_TILES_PLAYABLE = 7
 # PLAYER_NAME_FONT = pygame.font.Font('freesansbold.ttf', 32)
 PLAYER_TEXTX, PLAYER_TEXTY = 150, 10
