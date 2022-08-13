@@ -19,6 +19,7 @@ class Controller:
         self.win = win
         self.current_players_turn = 0  # by index
         self.player_selection_is_complete = False
+        self.clicked=False
 
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
@@ -364,6 +365,15 @@ class Controller:
         discard_button_rect = discard_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
 
+        mpos = pygame.mouse.get_pos()
+        if button_rect.collidepoint(mpos[0], mpos[1]):
+            self.clicked=True
+
+
+
+
+
+
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, CYAN, button_rect)
@@ -487,8 +497,21 @@ class Controller:
                 1] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
                 tile_index = int(mgrid[0] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                 player_tiles = self._players[self.current_players_turn].tile_array
+
                 if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
-                    self.tile_placement(player_tiles.pop(tile_index))
+                    if self.clicked:
+                        self._temp_tile = tile_index
+                        temp_list = []
+                        temp_list.append(self._temp_tile)
+                        self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
+                        player_tiles[tile_index]=Tile()
+                        new_tile=self._tile_bag.get_tiles(1)[0]
+                        player_tiles[tile_index]=new_tile
+                        self.clicked=False
+
+                    else:
+                        self.tile_placement(player_tiles.pop(tile_index))
+
 
     def draw(self):
         pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
@@ -496,6 +519,7 @@ class Controller:
         self.player_turn_display()
         self.tile_count_display()
         self.discard_button()
+
 
     def update(self):
         turn = True
@@ -515,6 +539,7 @@ class Controller:
                 self.shuffle_tiles_button(event)
                 self.reset_word_button(event)
                 self.end_game(event)
+
 
                 turn = self.submit_word(event)
                 if turn is not False:
