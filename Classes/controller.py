@@ -503,9 +503,9 @@ class Controller:
                         self._temp_tile = tile_index
                         temp_list = []
                         temp_list.append(self._temp_tile)
+                        new_tile = self._tile_bag.get_tiles(1)[0]
                         self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
                         player_tiles[tile_index]=Tile()
-                        new_tile=self._tile_bag.get_tiles(1)[0]
                         player_tiles[tile_index]=new_tile
                         self.clicked=False
 
