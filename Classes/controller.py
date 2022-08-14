@@ -189,15 +189,56 @@ class Controller:
         pygame.display.flip()
 
     # Player turn display
-    def player_turn_display(self):
-        button_rect = pygame.Rect(4, SQUARE_SIZE * 2, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, TAN, button_rect)
-        pygame.draw.rect(self.win, BLACK, button_rect, 1)
-        font = pygame.font.Font('freesansbold.ttf', 22)
-        submit_button = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
-        submit_button_rect = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
-        submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
-        self.win.blit(submit_button, submit_button_rect)
+    def player_turn_display(self, win):
+        win.fill(LT_CYAN)
+        # Set scoreboard dimensions
+        scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH, SQUARE_SIZE)
+        # Draw scoreboard background
+        pygame.draw.rect(win, WHITE, scoreboard_object)
+
+        #Highlight current players turn
+        if len(self._players) == 2:
+            player_one_highlighter= pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 2, SQUARE_SIZE)
+            player_two_highlighter = pygame.Rect(SQUARE_SIZE + SCOREBOARD_WIDTH / 2, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 2, SQUARE_SIZE)
+            if self.current_players_turn == 0:
+                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+            else:
+                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+            pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
+        elif len(self._players) == 3:
+            player_one_highlighter = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
+            player_two_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3) , SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
+            player_three_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3 * 2) , SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
+            if self.current_players_turn == 0:
+                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+            elif self.current_players_turn == 1:
+                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+            else:
+                pygame.draw.rect(win, YELLOW, player_three_highlighter)
+            pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
+            pygame.draw.rect(win, BLACK, player_two_highlighter, 1)
+            pygame.draw.rect(win, BLACK, player_three_highlighter, 1)
+        else:
+            player_one_highlighter = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, SCOREBOARD_WIDTH / 4, SQUARE_SIZE)
+            player_two_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH * .25), SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 4, SQUARE_SIZE)
+            player_three_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH * .5), SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 4, SQUARE_SIZE)
+            player_four_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH * .75), SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 4, SQUARE_SIZE)
+
+            if self.current_players_turn == 0:
+                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+            elif self.current_players_turn == 1:
+                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+            elif self.current_players_turn == 2:
+                pygame.draw.rect(win, YELLOW, player_three_highlighter)
+            else:
+                pygame.draw.rect(win, YELLOW, player_four_highlighter)
+            pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
+            pygame.draw.rect(win, BLACK, player_two_highlighter, 1)
+            pygame.draw.rect(win, BLACK, player_three_highlighter, 1)
+            pygame.draw.rect(win, BLACK, player_four_highlighter, 1)
+
+        #Draw scoreboard border
+        pygame.draw.rect(win, BLACK, scoreboard_object, 2)
 
     def tile_count_display(self):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 4, TILE_SIZE * 3, SQUARE_SIZE)
@@ -514,9 +555,9 @@ class Controller:
 
 
     def draw(self):
-        pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        #pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
+        self.player_turn_display(self.win)
         self._board.draw(self.win, self._players[self.current_players_turn])
-        self.player_turn_display()
         self.tile_count_display()
         self.discard_button()
 

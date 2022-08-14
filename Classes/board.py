@@ -23,11 +23,6 @@ class Board:
 
     def draw_scoreboard(self, win, player):
         player.update_score_list()
-        # Set scoreboard dimensions
-        scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE // 2, DISPLAY_WIDTH - (SQUARE_SIZE * 2), SQUARE_SIZE)
-        # Draw scoreboard and border
-        pygame.draw.rect(win, WHITE, scoreboard_object)
-        pygame.draw.rect(win, BLACK, scoreboard_object, 2)
 
         # Display scoreboard based on number of players
         if len(Player.nickname_list) == 2:
@@ -51,10 +46,10 @@ class Board:
             player_two = scoreboard_font.render(player.nickname_list[1]+": " + str(player.score_list[1]), True, BLACK, None)
             player_three = scoreboard_font.render(player.nickname_list[2] + ": " + str(player.score_list[2]), True, BLACK, None)
             player_four = scoreboard_font.render(player.nickname_list[3]+": " + str(player.score_list[3]), True, BLACK, None)
-            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.15, SQUARE_SIZE))
-            player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.38, SQUARE_SIZE))
-            player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.62, SQUARE_SIZE))
-            player_four_rect = player_four.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.85, SQUARE_SIZE))
+            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
+            player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 4) + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
+            player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 2) + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
+            player_four_rect = player_four.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH - (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
             win.blit(player_three, player_three_rect)
             win.blit(player_four, player_four_rect)
         # Draw first two players
@@ -79,10 +74,7 @@ class Board:
                     # TILE_SIZE))
 
     def draw(self, win, player):
-        pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
-        win.fill(YELLOW)
-
-        # ToDo: Update score list once the submit button is working - Complete
+        #pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
         for idx, row in enumerate(self._board):
             for idy, column in enumerate(row):
