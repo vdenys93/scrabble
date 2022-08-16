@@ -1,16 +1,17 @@
 # Colors by RGB
-RED = (255, 0, 0)
-WHITE = (255, 255, 255)
+WHITE = (242, 244, 247)
 BLACK = (0, 0, 0)
-GREY = (128, 128, 128)
-BLUE = (0, 0, 255)
-TAN = (238, 232, 170)
-MAGENTA = (255, 0, 255)
-LT_MAGENTA = (221, 160, 221)
-CYAN = (0, 255, 255)
-LT_CYAN = (175, 238, 238)
+TAN = (244, 233, 205)
+RED = (173, 48, 48)
+PINK = (204, 141, 160) #Salmon
+PURPLE = (138, 79, 255)
+LT_CYAN = (151, 210, 251)
 LT_GREY = (230, 230, 230)
-YELLOW = (255,255,0)
+GREEN = (85, 133, 100)
+BRIGHT_BLUE = (10, 211, 255)
+GREY = (158, 183, 229) #Light Grey with blue tint
+HOT_PINK = (255, 140, 198)
+
 
 # Display settings
 DISPLAY_WIDTH, DISPLAY_HEIGHT = 800, 800

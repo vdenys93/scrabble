@@ -28,10 +28,10 @@ class Controller:
         self.discard_remaining = 4
         self.discard_infoBox = InfoBox("Discarding Tiles", [
             [TextElement(text=f"You may discard up to {self.discard_remaining} tiles per turn.",
-                         text_color=CYAN)
+                         text_color=LT_CYAN)
              ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
                                        has_close_button=False, width=250,
-                                       identifier="Discard Text Box", title_color=CYAN)
+                                       identifier="Discard Text Box", title_color=LT_CYAN)
 
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
@@ -41,7 +41,7 @@ class Controller:
 
     def draw_text(self, text, x, y):
         font = pygame.font.Font('freesansbold.ttf', 32)
-        text = font.render(text, True, BLACK, BLUE)
+        text = font.render(text, True, BLACK, BRIGHT_BLUE)
         text_rect = text.get_rect()
         text_rect.center = (x // 2, y // 2)
 
@@ -206,7 +206,7 @@ class Controller:
     # Player turn display
 
     def player_turn_display(self, win):
-        win.fill(LT_CYAN)
+        win.fill(GREEN)
         # Set scoreboard dimensions
         scoreboard_object = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH, SQUARE_SIZE)
         # Draw scoreboard background
@@ -217,20 +217,20 @@ class Controller:
             player_one_highlighter= pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 2, SQUARE_SIZE)
             player_two_highlighter = pygame.Rect(SQUARE_SIZE + SCOREBOARD_WIDTH / 2, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 2, SQUARE_SIZE)
             if self.current_players_turn == 0:
-                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_one_highlighter)
             else:
-                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_two_highlighter)
             pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
         elif len(self._players) == 3:
             player_one_highlighter = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
             player_two_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3) , SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
             player_three_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3 * 2) , SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 3, SQUARE_SIZE)
             if self.current_players_turn == 0:
-                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_one_highlighter)
             elif self.current_players_turn == 1:
-                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_two_highlighter)
             else:
-                pygame.draw.rect(win, YELLOW, player_three_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_three_highlighter)
             pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
             pygame.draw.rect(win, BLACK, player_two_highlighter, 1)
             pygame.draw.rect(win, BLACK, player_three_highlighter, 1)
@@ -241,13 +241,13 @@ class Controller:
             player_four_highlighter = pygame.Rect(SQUARE_SIZE + (SCOREBOARD_WIDTH * .75), SQUARE_SIZE / 2, SCOREBOARD_WIDTH / 4, SQUARE_SIZE)
 
             if self.current_players_turn == 0:
-                pygame.draw.rect(win, YELLOW, player_one_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_one_highlighter)
             elif self.current_players_turn == 1:
-                pygame.draw.rect(win, YELLOW, player_two_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_two_highlighter)
             elif self.current_players_turn == 2:
-                pygame.draw.rect(win, YELLOW, player_three_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_three_highlighter)
             else:
-                pygame.draw.rect(win, YELLOW, player_four_highlighter)
+                pygame.draw.rect(win, HOT_PINK, player_four_highlighter)
             pygame.draw.rect(win, BLACK, player_one_highlighter, 1)
             pygame.draw.rect(win, BLACK, player_two_highlighter, 1)
             pygame.draw.rect(win, BLACK, player_three_highlighter, 1)
@@ -398,7 +398,7 @@ class Controller:
     def pass_button(self, event) -> bool:
         # Draw Pass Button
         button_rect = pygame.Rect(4, SQUARE_SIZE * 14, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, CYAN, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 17)
         pass_button = font.render('Pass Turn', True, BLACK)
@@ -417,7 +417,7 @@ class Controller:
 
     def discard_button(self):
         button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("Discard Tiles", True, BLACK)
@@ -449,7 +449,7 @@ class Controller:
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, CYAN, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 16)
         shuffle_button = font.render('Shuffle Tiles', True, BLACK)
@@ -465,7 +465,7 @@ class Controller:
 
     def reset_word_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 10, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, CYAN, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 16)
         shuffle_button = font.render('Reset Word', True, BLACK)
@@ -486,7 +486,7 @@ class Controller:
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 7, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_MAGENTA, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         end_game_button = font.render('End Game', True, BLACK)
@@ -502,7 +502,7 @@ class Controller:
     def submit_word(self, event) -> bool:
         # Draw Submit word button
         button_rect = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 24)
         submit_button = font.render('Submit Word', True, BLACK)
