@@ -407,8 +407,12 @@ class Controller:
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
-        if button_rect.collidepoint(mpos[0], mpos[1]):
+
+
+        if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
             self.clicked=True
+
+
 
 
 
