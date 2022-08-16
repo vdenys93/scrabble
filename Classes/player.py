@@ -1,12 +1,13 @@
 import pygame
 from .tile import Tile
 
-
 """
 Author:Team 4
 Program:player.py
 Player class
 """
+
+
 class Player:
     PLAYER_NUM = (1, 2, 3, 4)
 
@@ -32,10 +33,10 @@ class Player:
         self.turn_count = turn_count
         self.turn_since_last_placement = turn_since_last_placement
         self.tile_array = []
-        self.last_placed_word = [] # (x,y) tuples of location on board
+        self.last_placed_word = []  # (x,y) tuples of location on board
         self.skip_next_turn = False
-        Player.nickname_list.append(nick_name) # Add nickname to the nickname display list for scoreboard
-        Player.score_list.append(score) # Add score to score display list for scoreboard
+        Player.nickname_list.append(nick_name)  # Add nickname to the nickname display list for scoreboard
+        Player.score_list.append(score)  # Add score to score display list for scoreboard
         self.score = score
 
     def tile_count(self) -> int:
