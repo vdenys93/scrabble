@@ -18,7 +18,6 @@ def main():
     run = True
     clock = pygame.time.Clock()
     win.fill(LT_CYAN)
-
     game_controller = Controller(win)
 
     while run:
