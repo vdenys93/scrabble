@@ -61,14 +61,11 @@ class Board:
 
         if player is not None and len(player.tile_array) > 0:
             for idx, tile in enumerate(player.tile_array):
-                if tile.is_tile():
-                    tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
-                    # pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y,
-                    # TILE_SIZE, TILE_SIZE))
-                    # font = pygame.font.Font('freesansbold.ttf', 25)
-                    # TW_tiles = font.render(tile.get_letter(), True, BLACK)
-                    # win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE,
-                    # TILE_SIZE))
+                try:
+                    if tile.is_tile():
+                        tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
+                except:
+                    self.draw()
 
     def draw(self, win, player):
         #pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
