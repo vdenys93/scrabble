@@ -568,17 +568,19 @@ class Controller:
                 tile_index = int(mgrid[0] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                 player_tiles = self._players[self.current_players_turn].tile_array
 
-                if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
-                    if self.clicked:
-                        self._temp_tile = tile_index
-                        self._tile_bag._tiles_in_bag.append(self._temp_tile)
-                        player_tiles[tile_index] = Tile()
-                        new_tile = self._tile_bag.get_tiles(1)[0]
-                        player_tiles[tile_index] = new_tile
-                        self.clicked = False
-                    else:
-                        self.tile_placement(player_tiles.pop(tile_index))
-
+                try:
+                    if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
+                        if self.clicked:
+                            self._temp_tile = tile_index
+                            self._tile_bag._tiles_in_bag.append(self._temp_tile)
+                            player_tiles[tile_index] = Tile()
+                            new_tile = self._tile_bag.get_tiles(1)[0]
+                            player_tiles[tile_index] = new_tile
+                            self.clicked = False
+                        else:
+                            self.tile_placement(player_tiles.pop(tile_index))
+                except:
+                    self.update()
 
     def draw(self):
         #pygame.draw.rect(self.win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))
