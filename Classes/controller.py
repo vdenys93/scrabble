@@ -261,8 +261,8 @@ class Controller:
         button_rect = pygame.Rect(4, SQUARE_SIZE * 4, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, TAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
-        font = pygame.font.Font('freesansbold.ttf', 12)
-        tile_count_display_button = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
+        font = pygame.font.Font('freesansbold.ttf', 14)
+        tile_count_display_button = font.render("Tile Bag: " + str(self._tile_bag.get_tile_count()), True, BLACK)
         # tile_count_display_button_rect = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
         tile_count_display_button_rect = tile_count_display_button.get_rect(
             center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 4.5))
