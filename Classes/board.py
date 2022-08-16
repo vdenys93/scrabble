@@ -1,7 +1,7 @@
 import pygame
-from .tile import Tile
 from .constants import *
 from .player import Player
+from .tile import Tile
 
 
 class Board:
@@ -70,11 +70,8 @@ class Board:
                     tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
                     # pygame.draw.rect(win, WHITE, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y,
                     # TILE_SIZE, TILE_SIZE))
-
                     # font = pygame.font.Font('freesansbold.ttf', 25)
-
                     # TW_tiles = font.render(tile.get_letter(), True, BLACK)
-
                     # win.blit(TW_tiles, (TILE_HOLDER_OFFSET_X + (idx * SQUARE_SIZE), TILE_HOLDER_OFFSET_Y, TILE_SIZE,
                     # TILE_SIZE))
 

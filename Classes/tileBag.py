@@ -1,7 +1,7 @@
-import pygame
-from .tile import Tile
-from .constants import *
 import random
+
+from .constants import *
+from .tile import Tile
 
 
 class TileBag:

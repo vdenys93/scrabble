@@ -1,7 +1,10 @@
-import pygame
 import sys
-from Classes.controller import Controller
+import pygame
+import pygamepopup
+from pygamepopup.menu_manager import MenuManager
+from pygamepopup.components import Button, InfoBox, TextElement
 from Classes.constants import *
+from Classes.controller import Controller
 
 
 def get_row_col_from_mouse(pos):
@@ -17,7 +20,6 @@ def main():
     win.fill(LT_CYAN)
 
     game_controller = Controller(win)
-
 
     while run:
         clock.tick(FPS)
@@ -47,4 +49,5 @@ if __name__ == '__main__':
     win = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
     pygame.display.set_caption("Scrabble")
     pygame.init()
+    pygamepopup.init()
     main()

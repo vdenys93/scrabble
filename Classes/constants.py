@@ -1,5 +1,3 @@
-import pygame
-
 # Colors by RGB
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)

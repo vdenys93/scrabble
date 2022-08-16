@@ -1,7 +1,11 @@
-# import pygame
-import sys
+import pygame
 import random
+import sys
 import time
+import pygamepopup
+from pygamepopup.menu_manager import MenuManager
+from pygamepopup.components import Button, InfoBox, TextElement
+
 from .board import Board
 from .player import Player
 from .tile import Tile
@@ -19,7 +23,15 @@ class Controller:
         self.win = win
         self.current_players_turn = 0  # by index
         self.player_selection_is_complete = False
-        self.clicked=False
+        self.clicked = False
+        self.menu_manager = MenuManager(win)
+        self.discard_remaining = 4
+        self.discard_infoBox = InfoBox("Discarding Tiles", [
+            [TextElement(text=f"You may discard up to {self.discard_remaining} tiles per turn.",
+                         text_color=CYAN)
+             ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
+                                       has_close_button=False, width=250,
+                                       identifier="Discard Text Box", title_color=CYAN)
 
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
@@ -34,11 +46,11 @@ class Controller:
         text_rect.center = (x // 2, y // 2)
 
     def create_players(self, number_of_players):
-        #Create First Two Players
+        # Create First Two Players
         self._players.append(Player("Player 1", 1))
         self._players.append(Player("Player 2", 2))
 
-        #Add Additional Players
+        # Add Additional Players
         if number_of_players == 3:
             self._players.append(Player("Player 3", 3))
         elif number_of_players == 4:
@@ -48,37 +60,40 @@ class Controller:
     def get_player_count(self, win, event):
         scrabble_font = pygame.font.Font('freesansbold.ttf', 32)
         font = pygame.font.Font('freesansbold.ttf', 24)
-        #Text Display
+        # Text Display
         welcome_text = scrabble_font.render('Welcome to Scrabble!', True, BLACK)
         self.win.blit(welcome_text, (175, 75))
         how_many_players_text = font.render('Enter the Number of Players', True, BLACK)
         self.win.blit(how_many_players_text, (175, 180))
 
-        #Two Person Selection Button
+        # Two Person Selection Button
         two_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 7, SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, LT_GREY, two_player_button)
         pygame.draw.rect(self.win, GREY, two_player_button, 1)
         two_player_text = font.render('2', True, BLACK)
-        two_text_rect = two_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 7 + (TILE_SIZE * .5)))
+        two_text_rect = two_player_text.get_rect(
+            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 7 + (TILE_SIZE * .5)))
         self.win.blit(two_player_text, two_text_rect)
 
-        #Three Person Selection Button
+        # Three Person Selection Button
         three_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 11, SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, LT_GREY, three_player_button)
         pygame.draw.rect(self.win, GREY, three_player_button, 1)
         three_player_text = font.render('3', True, BLACK)
-        three_text_rect = three_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 11 + (TILE_SIZE * .5)))
+        three_text_rect = three_player_text.get_rect(
+            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 11 + (TILE_SIZE * .5)))
         self.win.blit(three_player_text, three_text_rect)
 
-        #Four Person Selection Button
+        # Four Person Selection Button
         four_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 15, SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, LT_GREY, four_player_button)
         pygame.draw.rect(self.win, GREY, four_player_button, 1)
         four_player_text = font.render('4', True, BLACK)
-        four_text_rect = four_player_text.get_rect(center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 15 + (TILE_SIZE * .5)))
+        four_text_rect = four_player_text.get_rect(
+            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 15 + (TILE_SIZE * .5)))
         self.win.blit(four_player_text, four_text_rect)
 
-        #Create Players based on button selected
+        # Create Players based on button selected
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if two_player_button.collidepoint(mpos[0], mpos[1]):
@@ -185,7 +200,7 @@ class Controller:
             self.current_players_turn += 1
         if self._players[self.current_players_turn].skip_next_turn == True:
             self.next_turn()
-
+        self.discard_remaining = 4
         pygame.display.flip()
 
     # Player turn display
@@ -195,18 +210,20 @@ class Controller:
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 22)
         submit_button = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
-        submit_button_rect = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
+        # submit_button_rect = font.render("Player: " + str((self.current_players_turn) + 1), True, BLACK)
         submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 2.5))
         self.win.blit(submit_button, submit_button_rect)
 
+    # Counter for tile remaining in the tile bag
     def tile_count_display(self):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 4, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, TAN, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 12)
         tile_count_display_button = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
-        tile_count_display_button_rect = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
-        tile_count_display_button_rect = tile_count_display_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 4.5))
+        # tile_count_display_button_rect = font.render("Tile Count: " + str(self._tile_bag.get_tile_count()), True, BLACK)
+        tile_count_display_button_rect = tile_count_display_button.get_rect(
+            center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 4.5))
         self.win.blit(tile_count_display_button, tile_count_display_button_rect)
 
     def challenge(self) -> bool:
@@ -214,10 +231,9 @@ class Controller:
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 20)
-        submit_button = font.render("Challenge Word!", True, BLACK)
-        submit_button_rect = font.render("Challenge Word!", True, BLACK)
-        submit_button_rect = submit_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 18.5))
-        self.win.blit(submit_button, button_rect)
+        challenge_button = font.render("Challenge Word!", True, BLACK)
+        challenge_button_rect = challenge_button.get_rect(center=(4 + (TILE_SIZE * 4), SQUARE_SIZE * 18.5))
+        self.win.blit(challenge_button, challenge_button_rect)
 
         decided = False
         for event in pygame.event.get():
@@ -226,41 +242,45 @@ class Controller:
                 if button_rect.collidepoint(mpos[0], mpos[1]):
                     while decided is not True:
                         self.draw()
-                        valid_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 17, TILE_SIZE * 7, TILE_SIZE)
+                        valid_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 17, TILE_SIZE * 6.5, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, valid_rect)
                         pygame.draw.rect(self.win, BLACK, valid_rect, 1)
                         font = pygame.font.Font('freesansbold.ttf', 22)
                         valid_button = font.render("Is the word valid?", True, BLACK)
-                        self.win.blit(valid_button, valid_rect)
+                        valid_button_rect = valid_button.get_rect(center=(6 + (TILE_SIZE * 4), SQUARE_SIZE * 17.5))
+                        self.win.blit(valid_button, valid_button_rect)
 
-                        yes_rect = pygame.Rect(SQUARE_SIZE * 8, SQUARE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE)
+                        yes_rect = pygame.Rect(SQUARE_SIZE * 8, SQUARE_SIZE * 17, TILE_SIZE * 1.5, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, yes_rect)
                         pygame.draw.rect(self.win, BLACK, yes_rect, 1)
                         yes_button = font.render("Yes", True, BLACK)
-                        self.win.blit(yes_button, yes_rect)
+                        yes_button_rect = valid_button.get_rect(center=(30 + (TILE_SIZE * 11), SQUARE_SIZE * 17.5))
+                        self.win.blit(yes_button, yes_button_rect)
 
-                        no_rect = pygame.Rect(SQUARE_SIZE * 11, SQUARE_SIZE * 17, TILE_SIZE * 2, TILE_SIZE)
+                        no_rect = pygame.Rect(SQUARE_SIZE * 11, SQUARE_SIZE * 17, TILE_SIZE * 1.5, TILE_SIZE)
                         pygame.draw.rect(self.win, WHITE, no_rect)
                         pygame.draw.rect(self.win, BLACK, no_rect, 1)
                         no_button = font.render("No", True, BLACK)
-                        self.win.blit(no_button, no_rect)
+                        no_button_rect = valid_button.get_rect(center=(14 + (TILE_SIZE * 15), SQUARE_SIZE * 17.5))
+                        self.win.blit(no_button, no_button_rect)
 
                         for event in pygame.event.get():
-
                             if event.type == pygame.MOUSEBUTTONDOWN:
                                 mpos = pygame.mouse.get_pos()
 
                                 if yes_rect.collidepoint(mpos[0], mpos[1]):
-                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 15,
+                                    which_player_rect = pygame.Rect(SQUARE_SIZE * 3, SQUARE_SIZE * 19, TILE_SIZE * 13,
                                                                     TILE_SIZE)
                                     pygame.draw.rect(self.win, WHITE, which_player_rect)
                                     pygame.draw.rect(self.win, BLACK, which_player_rect, 1)
                                     font = pygame.font.Font('freesansbold.ttf', 22)
                                     which_player_button = font.render("Which player number losses their turn?", True,
                                                                       BLACK)
-                                    self.win.blit(which_player_button, which_player_rect)
+                                    which_player_button_rect = which_player_button.get_rect(
+                                        center=(8 + (TILE_SIZE * 9.5), SQUARE_SIZE * 19.5))
+                                    self.win.blit(which_player_button, which_player_button_rect)
 
-                                    input_rect = pygame.Rect(SQUARE_SIZE * 17, SQUARE_SIZE * 19, TILE_SIZE * 1,
+                                    input_rect = pygame.Rect(SQUARE_SIZE * 17.5, SQUARE_SIZE * 19, TILE_SIZE * 1,
                                                              TILE_SIZE)
 
                                     input_player_num = ''
@@ -270,17 +290,14 @@ class Controller:
                                         self.win.blit(input_player, input_rect)
 
                                         for event in pygame.event.get():
-
                                             if event.type == pygame.KEYDOWN:
-
                                                 if event.key == pygame.K_BACKSPACE:
-
                                                     input_player_num = input_player_num[:-1]
-
                                                 elif event.key == pygame.K_RETURN:
-                                                    if input_player_num.isdigit() and int(input_player_num)-1 in range(
-                                                            len(self._players)):
-                                                        self._players[(int(input_player_num)-1)].skip_next_turn = True
+                                                    if input_player_num.isdigit() and int(
+                                                            input_player_num) - 1 in range(
+                                                        len(self._players)):
+                                                        self._players[(int(input_player_num) - 1)].skip_next_turn = True
                                                         end_time = time.time() + 4
                                                         while time.time() < end_time:
                                                             self.draw()
@@ -293,8 +310,9 @@ class Controller:
 
                                                             lost_turn_button = font.render("Player " + str(
                                                                 input_player_num) + " losses turn", True, BLACK)
-
-                                                            self.win.blit(lost_turn_button, lost_turn_rect)
+                                                            lost_turn_button_rect = lost_turn_button.get_rect(
+                                                                center=(12 + (TILE_SIZE * 6.5), SQUARE_SIZE * 19.5))
+                                                            self.win.blit(lost_turn_button, lost_turn_button_rect)
                                                             pygame.display.flip()
                                                         player = True
                                                         return True
@@ -313,9 +331,7 @@ class Controller:
                                 if no_rect.collidepoint((mpos[0], mpos[1])):
                                     for xy in self._placed_tiles:
                                         self._temp_tile = self._board._board[xy[0]][xy[1]]
-                                        temp_list = []
-                                        temp_list.append(self._temp_tile)
-                                        self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
+                                        self._tile_bag._tiles_in_bag.append(self._temp_tile)
                                         self._board._board[xy[0]][xy[1]] = Tile()
                                         # TODO return new tiles to bag from player hand - complete
                                     end_time = time.time() + 4
@@ -355,24 +371,35 @@ class Controller:
                 return False
         return True
 
-    def discard_button(self) :
-        button_rect = pygame.Rect (BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+    # Button Creation
+
+    def discard_button(self):
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, WHITE, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
-        discard_button_rect = discard_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        discard_button_rect = discard_button.get_rect(
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
         if button_rect.collidepoint(mpos[0], mpos[1]):
-            self.clicked=True
+            # Create popup InfoBox that says you can discard up to four tiles
+            self.show_popup(self.discard_infoBox)
+            self.menu_manager.display()
+            # Collect tiles in the popup window into a temporary list
+            # Move the list to the tile bag and refresh the tile tray
+            self.clicked = True
 
-
-
-
-
+    def show_popup(self, menu):
+        if self.menu_manager.active_menu is not None:
+            if self.menu_manager.active_menu.identifier == menu.identifier:
+                pass
+            else:
+                self.menu_manager.close_active_menu()
+        self.menu_manager.open_menu(menu)
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
@@ -401,15 +428,13 @@ class Controller:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
-            if button_rect.collidepoint(mpos[0], mpos[1]):
+            if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
                 for xy in self._placed_tiles:
                     self._temp_tile = self._board._board[xy[0]][xy[1]]
-                    temp_list = []
-                    temp_list.append(self._temp_tile)
-                    for player in self._players:
-                        if len(player.tile_array) < 7:
-                            player.tile_array = player.tile_array + temp_list
+                    current_player = self._players[self.current_players_turn]
+                    current_player.tile_array.append(self._temp_tile)
                     self._board._board[xy[0]][xy[1]] = Tile()
+                self._placed_tiles = []
                 return False
         return True
 
@@ -462,7 +487,6 @@ class Controller:
 
         while placed is not True:
             mpos = (pygame.mouse.get_pos())
-
             self.draw()
             tile.draw(self.win, mpos[0], mpos[1])
             pygame.display.flip()
@@ -501,14 +525,11 @@ class Controller:
                 if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
                     if self.clicked:
                         self._temp_tile = tile_index
-                        temp_list = []
-                        temp_list.append(self._temp_tile)
-                        self._tile_bag._tiles_in_bag = self._tile_bag._tiles_in_bag + temp_list
-                        player_tiles[tile_index]=Tile()
-                        new_tile=self._tile_bag.get_tiles(1)[0]
-                        player_tiles[tile_index]=new_tile
-                        self.clicked=False
-
+                        self._tile_bag._tiles_in_bag.append(self._temp_tile)
+                        player_tiles[tile_index] = Tile()
+                        new_tile = self._tile_bag.get_tiles(1)[0]
+                        player_tiles[tile_index] = new_tile
+                        self.clicked = False
                     else:
                         self.tile_placement(player_tiles.pop(tile_index))
 
@@ -519,7 +540,6 @@ class Controller:
         self.player_turn_display()
         self.tile_count_display()
         self.discard_button()
-
 
     def update(self):
         turn = True
@@ -540,10 +560,9 @@ class Controller:
                 self.reset_word_button(event)
                 self.end_game(event)
 
-
                 turn = self.submit_word(event)
                 if turn is not False:
                     turn = self.pass_button(event)
                 pygame.display.flip()
-
+        turn = True
         self.next_turn()
