@@ -65,7 +65,7 @@ class Board:
                     if tile.is_tile():
                         tile.draw(win, (idx * SQUARE_SIZE) + TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y)
                 except:
-                    self.draw()
+                    self.draw(win, player)
 
     def draw(self, win, player):
         #pygame.draw.rect(win, BLACK, (0, 0, DISPLAY_WIDTH, DISPLAY_HEIGHT))

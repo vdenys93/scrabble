@@ -29,7 +29,7 @@ class Controller:
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.discard_infoBox = InfoBox("Discarding Tiles", [
-            [TextElement(text=f"You may discard up to {self.discard_remaining} tiles per turn.",
+            [TextElement(text=f"You may discard up to 7 tiles per turn.",
                          text_color=LT_CYAN)
              ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
                                        has_close_button=False, width=250,
