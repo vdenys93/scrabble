@@ -25,6 +25,7 @@ class Controller:
         self.player_selection_is_complete = False
         self.clicked_discard = False
         self.discard_completed=False
+        self.remove_discard=False
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.discard_infoBox = InfoBox("Discarding Tiles", [
@@ -204,6 +205,7 @@ class Controller:
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.clicked_discard=False
         self.discard_completed=False
+        self.remove_discard=False
 
 
         pygame.display.flip()
@@ -421,14 +423,14 @@ class Controller:
     # Button Creation
 
     def discard_button(self):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 17, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 17 + (TILE_SIZE * .5)))
+        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
@@ -447,15 +449,16 @@ class Controller:
 
 
     def end_discard(self,event):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18.5, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("End Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18+ (TILE_SIZE * .5)))
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18.5+ (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
+        self.remove_discard=True
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
@@ -464,7 +467,7 @@ class Controller:
                 self.next_turn()
 
             return False
-        return True
+
 
 
 
@@ -643,9 +646,11 @@ class Controller:
                 self.draw()
                 self.shuffle_tiles_button(event)
                 self.reset_word_button(event)
-                self.discard_button()
+
                 self.end_game(event)
 
+                if not self.remove_discard:
+                    self.discard_button()
 
 
                 turn = self.submit_word(event)
