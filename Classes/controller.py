@@ -24,6 +24,7 @@ class Controller:
         self.current_players_turn = 0  # by index
         self.player_selection_is_complete = False
         self.clicked_discard = False
+        self.discard_completed=False
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.discard_infoBox = InfoBox("Discarding Tiles", [
@@ -201,6 +202,10 @@ class Controller:
         if self._players[self.current_players_turn].skip_next_turn == True:
             self.next_turn()
         self.discard_remaining = MAX_TILES_PLAYABLE
+        self.clicked_discard=False
+        self.discard_completed=False
+
+
         pygame.display.flip()
 
     # Player turn display
@@ -423,7 +428,7 @@ class Controller:
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 17 + (TILE_SIZE * .5)))
+        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 17 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
@@ -432,6 +437,10 @@ class Controller:
             self.menu_manager.display()
         if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
             self.clicked_discard = True
+            self._players[self.current_players_turn].turn_since_last_placement += 1
+
+
+
 
 
     def end_discard(self,event):
@@ -442,14 +451,17 @@ class Controller:
         discard_button = font.render("End Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18+ (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
-            if button_rect.collidepoint(mpos[0], mpos[1]):
+            if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
+                self.clicked_discard = False
+                self.discard_completed = True
                 self._players[self.current_players_turn].turn_since_last_placement += 1
+
                 return False
-        return True
+            return True
 
 
 
@@ -586,16 +598,17 @@ class Controller:
 
                 try:
                     if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
-                        if self.clicked_discard:
-                            self.discard_remaining-=1
-                            self._temp_tile = tile_index
-                            self._tile_bag._tiles_in_bag.append(self._temp_tile)
-                            player_tiles[tile_index] = Tile()
-                            new_tile = self._tile_bag.get_tiles(1)[0]
-                            player_tiles[tile_index] = new_tile
-                            self.clicked_discard = False
+                        if self.clicked_discard and not self.discard_completed:
+                            if self.discard_remaining !=0:
+                                self.discard_remaining-=1
+                                self._temp_tile = tile_index
+                                self._tile_bag._tiles_in_bag.append(self._temp_tile)
+                                player_tiles[tile_index] = Tile()
+                                new_tile = self._tile_bag.get_tiles(1)[0]
+                                player_tiles[tile_index] = new_tile
+
                             if self.discard_remaining==0:
-                                    self.next_turn()
+                                self.next_turn()
                         else:
                             self.tile_placement(player_tiles.pop(tile_index))
                 except:
@@ -608,7 +621,9 @@ class Controller:
         self.tile_count_display()
 
 
+
     def update(self):
+
         turn = True
         if self._players[self.current_players_turn].skip_next_turn is True:
             turn = False
@@ -631,7 +646,8 @@ class Controller:
 
 
                 turn = self.submit_word(event)
-                if turn is not False:
+
+                if turn is not False and self.clicked_discard:
                     turn = self.end_discard(event)
                 if turn is not False:
                     turn = self.pass_button(event)
