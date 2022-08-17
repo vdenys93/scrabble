@@ -423,14 +423,14 @@ class Controller:
     # Button Creation
 
     def discard_button(self):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 17, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 17 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
@@ -449,14 +449,14 @@ class Controller:
 
 
     def end_discard(self,event):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18.5, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("End Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18.5+ (TILE_SIZE * .5)))
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18+ (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
         self.remove_discard=True
         if event.type == pygame.MOUSEBUTTONDOWN:
