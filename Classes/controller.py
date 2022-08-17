@@ -437,7 +437,10 @@ class Controller:
             self.menu_manager.display()
         if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
             self.clicked_discard = True
-            self._players[self.current_players_turn].turn_since_last_placement += 1
+
+
+
+
 
 
 
@@ -456,12 +459,12 @@ class Controller:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
-                self.clicked_discard = False
-                self.discard_completed = True
-                self._players[self.current_players_turn].turn_since_last_placement += 1
 
-                return False
-            return True
+                self.discard_completed = True
+                self.next_turn()
+
+            return False
+        return True
 
 
 
@@ -648,7 +651,7 @@ class Controller:
                 turn = self.submit_word(event)
 
                 if turn is not False and self.clicked_discard:
-                    turn = self.end_discard(event)
+                    self.end_discard(event)
                 if turn is not False:
                     turn = self.pass_button(event)
 
