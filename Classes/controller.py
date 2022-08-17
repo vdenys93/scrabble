@@ -19,7 +19,7 @@ class Controller:
         self._players = []
         self._tile_bag = TileBag()
         self._temp_tile = Tile()
-        self._placed_tiles = []
+        self._placed_tiles = []          # list of tuples of grid coords
         self.win = win
         self.current_players_turn = 0  # by index
         self.player_selection_is_complete = False
@@ -165,13 +165,13 @@ class Controller:
         # adjacent_words = 0
         for i in self._placed_tiles:
             letter_bonus = 0
-            if BOARD_PATTERN[i[0]][i[1]] == 'TW':
+            if game_board._multipliers[i[0]][i[1]] == 'TW':
                 triple_word_bonus += 1
-            elif BOARD_PATTERN[i[0]][i[1]] == 'DW':
+            elif game_board._multipliers[i[0]][i[1]] == 'DW' or game_board._multipliers[i[0]][i[1]] == 'ST':
                 double_word_bonus += 1
-            if BOARD_PATTERN[i[0]][i[1]] == 'TL':
+            if game_board._multipliers[i[0]][i[1]] == 'TL':
                 letter_bonus = 3
-            elif BOARD_PATTERN[i[0]][i[1]] == 'DL':
+            elif game_board._multipliers[i[0]][i[1]] == 'DL':
                 letter_bonus = 2
             if letter_bonus > 0:
                 word_score += game_board._board[i[0]][i[1]].get_points() * letter_bonus
@@ -179,10 +179,10 @@ class Controller:
                 word_score += game_board._board[i[0]][i[1]].get_points()
         if double_word_bonus > 0:
             for n in range(double_word_bonus):
-                word_score += game_board._board[i[0]][i[1]].get_points() * 2
+                word_score = word_score * 2
         if triple_word_bonus > 0:
             for n in range(triple_word_bonus):
-                word_score += game_board._board[i[0]][i[1]].get_points() * 3
+                word_score += word_score * 3
         return word_score + adjacent_words
 
     def get_row_col_from_mouse(self, pos):
