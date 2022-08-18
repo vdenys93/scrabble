@@ -193,6 +193,23 @@ class Controller:
         col = int(x // SQUARE_SIZE)
         return col, row
 
+    def win_conditions(self):
+        player_tile_count = 0
+        player_pass_greater_2 = 0
+        for player in self._players:
+            if player.turn_since_last_placement >= 2:
+                player_pass_greater_2 += 1
+        if player_pass_greater_2 == len(self._players):
+            pygame.quit()
+            sys.exit()
+        if self._tile_bag.get_tile_count() is 0:
+            for player in self._players:
+                player_tile_count += player.tile_count()
+        if player_tile_count > 0:
+            pygame.quit()
+            sys.exit()
+        return
+
     def next_turn(self):
         self._placed_tiles = []
         self.pass_out_tiles()
@@ -200,7 +217,7 @@ class Controller:
             self.current_players_turn = 0
         else:
             self.current_players_turn += 1
-        if self._players[self.current_players_turn].skip_next_turn == True:
+        if self._players[self.current_players_turn].skip_next_turn is True:
             self.next_turn()
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.clicked_discard=False
@@ -583,9 +600,9 @@ class Controller:
 
                     # board placement
                     if BOARD_OFFSET_X < mpos[0] < BOARD_OFFSET_X + BOARD_WIDTH and BOARD_OFFSET_Y < mpos[
-                        1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
+                       1] < BOARD_OFFSET_Y + BOARD_HEIGHT:
                         if self._board._board[int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE))][
-                            int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
+                          int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE))].is_tile() is not True:
                             board_grid = (int(mgrid[0] - (BOARD_OFFSET_X // SQUARE_SIZE)),
                                           int(mgrid[1] - (BOARD_OFFSET_Y // SQUARE_SIZE)))
                             self._board.place_tile(tile, board_grid)
@@ -598,7 +615,7 @@ class Controller:
             mgrid = self.get_row_col_from_mouse(pygame.mouse.get_pos())
 
             if TILE_HOLDER_OFFSET_X // SQUARE_SIZE <= mgrid[0] < TILE_HOLDER_OFFSET_X // SQUARE_SIZE + 7 and mgrid[
-                1] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
+               1] == TILE_HOLDER_OFFSET_Y // SQUARE_SIZE:
                 tile_index = int(mgrid[0] - (TILE_HOLDER_OFFSET_X // SQUARE_SIZE))
                 player_tiles = self._players[self.current_players_turn].tile_array
 
@@ -641,7 +658,6 @@ class Controller:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
                 self.tile_holder_clicks(event)
                 self.draw()
                 self.shuffle_tiles_button(event)
