@@ -24,8 +24,8 @@ class Controller:
         self.current_players_turn = 0  # by index
         self.player_selection_is_complete = False
         self.clicked_discard = False
-        self.discard_completed=False
-        self.remove_discard=False
+        self.discard_completed = False
+        self.remove_discard = False
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
         self.discard_infoBox = InfoBox("Discarding Tiles", [
@@ -202,7 +202,7 @@ class Controller:
         if player_pass_greater_2 == len(self._players):
             pygame.quit()
             sys.exit()
-        if self._tile_bag.get_tile_count() is 0:
+        if self._tile_bag.get_tile_count() == 0:
             for player in self._players:
                 player_tile_count += player.tile_count()
         if player_tile_count > 0:
@@ -220,10 +220,9 @@ class Controller:
         if self._players[self.current_players_turn].skip_next_turn is True:
             self.next_turn()
         self.discard_remaining = MAX_TILES_PLAYABLE
-        self.clicked_discard=False
-        self.discard_completed=False
-        self.remove_discard=False
-
+        self.clicked_discard = False
+        self.discard_completed = False
+        self.remove_discard = False
 
         pygame.display.flip()
 
@@ -415,7 +414,6 @@ class Controller:
                                         pygame.display.flip()
                                         decided = True
                                     return False
-
                         pygame.display.flip()
 
     # def clicked_tile(self):
@@ -440,14 +438,14 @@ class Controller:
     # Button Creation
 
     def discard_button(self):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(4, SQUARE_SIZE * 16, TILE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
-        font = pygame.font.Font('freesansbold.ttf', 18)
+        font = pygame.font.Font('freesansbold.ttf', 16)
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-        center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 16.5))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
@@ -457,23 +455,15 @@ class Controller:
         if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
             self.clicked_discard = True
 
-
-
-
-
-
-
-
-
     def end_discard(self,event):
-        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 17, SQUARE_SIZE * 3.5, SQUARE_SIZE)
+        button_rect = pygame.Rect(BOARD_WIDTH, SQUARE_SIZE * 18, SQUARE_SIZE * 3.5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("End Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
         discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 17 + (TILE_SIZE * .5)))
+            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
         self.remove_discard=True
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -483,11 +473,7 @@ class Controller:
                 self.discard_completed = True
                 self.clicked_discard = False
                 self.next_turn()
-
             return False
-
-
-
 
     def show_popup(self, menu):
         if self.menu_manager.active_menu is not None:
@@ -496,8 +482,6 @@ class Controller:
             else:
                 self.menu_manager.close_active_menu()
         self.menu_manager.open_menu(menu)
-
-
 
     def shuffle_tiles_button(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 12, TILE_SIZE * 3, SQUARE_SIZE)
@@ -576,8 +560,9 @@ class Controller:
                     if good_word is None or good_word is True:
                         self._players[self.current_players_turn].score += self.calculate_points(self._board)
                     self._board.draw_scoreboard(self.win, self._players[self.current_players_turn])
-                turn_active = False
-                return turn_active
+                    turn_active = False
+                    return turn_active
+            return True
 
     def tile_placement(self, tile):
         floating_tile = tile
@@ -623,15 +608,15 @@ class Controller:
                 try:
                     if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
                         if self.clicked_discard and not self.discard_completed:
-                            if self.discard_remaining !=0:
-                                self.discard_remaining-=1
+                            if self.discard_remaining != 0:
+                                self.discard_remaining -= 1
                                 self._temp_tile = tile_index
                                 self._tile_bag._tiles_in_bag.append(self._temp_tile)
                                 player_tiles[tile_index] = Tile()
                                 new_tile = self._tile_bag.get_tiles(1)[0]
                                 player_tiles[tile_index] = new_tile
 
-                            if self.discard_remaining==0:
+                            if self.discard_remaining == 0:
                                 self.next_turn()
                         else:
                             self.tile_placement(player_tiles.pop(tile_index))
