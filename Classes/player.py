@@ -1,6 +1,3 @@
-import pygame
-from .tile import Tile
-
 """
 Author:Team 4
 Program:player.py
