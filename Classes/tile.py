@@ -24,7 +24,6 @@ class Tile:
         return True
 
     def draw(self, win, xcor: int, ycor: int):
-        # mpos: tuple, win
 
         letter_font = pygame.font.Font('freesansbold.ttf', 16)
         letter_text = letter_font.render(self._letter, True, BLACK, None)

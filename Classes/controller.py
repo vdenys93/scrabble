@@ -70,8 +70,8 @@ class Controller:
 
         # Two Person Selection Button
         two_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 7, SQUARE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, two_player_button)
-        pygame.draw.rect(self.win, GREY, two_player_button, 1)
+        pygame.draw.rect(self.win, GREY, two_player_button)
+        pygame.draw.rect(self.win, BLACK, two_player_button, 1)
         two_player_text = font.render('2', True, BLACK)
         two_text_rect = two_player_text.get_rect(
             center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 7 + (TILE_SIZE * .5)))
@@ -79,8 +79,8 @@ class Controller:
 
         # Three Person Selection Button
         three_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 11, SQUARE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, three_player_button)
-        pygame.draw.rect(self.win, GREY, three_player_button, 1)
+        pygame.draw.rect(self.win, GREY, three_player_button)
+        pygame.draw.rect(self.win, BLACK, three_player_button, 1)
         three_player_text = font.render('3', True, BLACK)
         three_text_rect = three_player_text.get_rect(
             center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 11 + (TILE_SIZE * .5)))
@@ -88,8 +88,8 @@ class Controller:
 
         # Four Person Selection Button
         four_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 15, SQUARE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, LT_GREY, four_player_button)
-        pygame.draw.rect(self.win, GREY, four_player_button, 1)
+        pygame.draw.rect(self.win, GREY, four_player_button)
+        pygame.draw.rect(self.win, BLACK, four_player_button, 1)
         four_player_text = font.render('4', True, BLACK)
         four_text_rect = four_player_text.get_rect(
             center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 15 + (TILE_SIZE * .5)))
@@ -294,7 +294,7 @@ class Controller:
 
     def challenge(self) -> bool:
         button_rect = pygame.Rect(SQUARE_SIZE * 1, SQUARE_SIZE * 18, SQUARE_SIZE * 5.5, SQUARE_SIZE)
-        pygame.draw.rect(self.win, WHITE, button_rect)
+        pygame.draw.rect(self.win, HOT_PINK, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 20)
         challenge_button = font.render("Challenge Word!", True, BLACK)
@@ -317,14 +317,14 @@ class Controller:
                         self.win.blit(valid_button, valid_button_rect)
 
                         yes_rect = pygame.Rect(SQUARE_SIZE * 8, SQUARE_SIZE * 17, TILE_SIZE * 1.5, TILE_SIZE)
-                        pygame.draw.rect(self.win, WHITE, yes_rect)
+                        pygame.draw.rect(self.win, GREY, yes_rect)
                         pygame.draw.rect(self.win, BLACK, yes_rect, 1)
                         yes_button = font.render("Yes", True, BLACK)
                         yes_button_rect = valid_button.get_rect(center=(30 + (TILE_SIZE * 11), SQUARE_SIZE * 17.5))
                         self.win.blit(yes_button, yes_button_rect)
 
                         no_rect = pygame.Rect(SQUARE_SIZE * 11, SQUARE_SIZE * 17, TILE_SIZE * 1.5, TILE_SIZE)
-                        pygame.draw.rect(self.win, WHITE, no_rect)
+                        pygame.draw.rect(self.win, GREY, no_rect)
                         pygame.draw.rect(self.win, BLACK, no_rect, 1)
                         no_button = font.render("No", True, BLACK)
                         no_button_rect = valid_button.get_rect(center=(14 + (TILE_SIZE * 15), SQUARE_SIZE * 17.5))
@@ -537,7 +537,7 @@ class Controller:
 
     def end_game(self, event):
         button_rect = pygame.Rect(4, SQUARE_SIZE * 7, TILE_SIZE * 3, SQUARE_SIZE)
-        pygame.draw.rect(self.win, GREY, button_rect)
+        pygame.draw.rect(self.win, PINK, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
         font = pygame.font.Font('freesansbold.ttf', 18)
         end_game_button = font.render('End Game', True, BLACK)
