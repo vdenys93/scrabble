@@ -26,14 +26,39 @@ class Controller:
         self.clicked_discard = False
         self.discard_completed = False
         self.remove_discard = False
+        self.discarded_tile_indexes = []
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
+        self.reset_word_infoBox = InfoBox("Resetting Tiles", [
+            [TextElement(text=f"Return the tiles to your tile board before submitting them.",
+                         text_color=LT_CYAN)
+             ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
+                                       has_close_button=False, width=250,
+                                       identifier="Reset Word Text Box", title_color=LT_CYAN)
+        self.shuffle_infoBox = InfoBox("Shuffling Tiles", [
+            [TextElement(text=f"You may shuffle the tiles on your tile board.",
+                         text_color=LT_CYAN)
+             ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
+                                       has_close_button=False, width=250,
+                                       identifier="Shuffle Tiles Text Box", title_color=LT_CYAN)
+        self.pass_infoBox = InfoBox("Passing your turn", [
+            [TextElement(text=f"You may pass your turn if you have no tiles to play and cannot discard.",
+                         text_color=LT_CYAN)
+             ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
+                                       has_close_button=False, width=250,
+                                       identifier="Pass Turn Text Box", title_color=LT_CYAN)
         self.discard_infoBox = InfoBox("Discarding Tiles", [
             [TextElement(text=f"You may discard up to 7 tiles per turn.",
                          text_color=LT_CYAN)
              ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
                                        has_close_button=False, width=250,
                                        identifier="Discard Text Box", title_color=LT_CYAN)
+        self.discard_error_infoBox = InfoBox("Discarding Tiles", [
+            [TextElement(text=f"You cannot discard a tile you received from discarding.  Choose a different tile",
+                         text_color=LT_CYAN)
+             ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
+                                       has_close_button=False, width=250,
+                                       identifier="Discard Error Text Box", title_color=LT_CYAN)
 
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
@@ -339,20 +364,26 @@ class Controller:
                                     pygame.draw.rect(self.win, WHITE, which_player_rect)
                                     pygame.draw.rect(self.win, BLACK, which_player_rect, 1)
                                     font = pygame.font.Font('freesansbold.ttf', 22)
-                                    which_player_button = font.render("Which player number losses their turn?", True,
+                                    which_player_button = font.render("Which player made the challenge?", True,
                                                                       BLACK)
                                     which_player_button_rect = which_player_button.get_rect(
                                         center=(8 + (TILE_SIZE * 9.5), SQUARE_SIZE * 19.5))
                                     self.win.blit(which_player_button, which_player_button_rect)
 
-                                    input_rect = pygame.Rect(SQUARE_SIZE * 17.5, SQUARE_SIZE * 19, TILE_SIZE * 1,
-                                                             TILE_SIZE)
+                                    # draw input box
+                                    input_rect_box = pygame.Rect(8 + (TILE_SIZE * 16.5), SQUARE_SIZE * 19, TILE_SIZE * 1.5,
+                                                             TILE_SIZE* 1.5)
 
+                                    place_holder = font.render(" ", True, BLACK)
+
+                                    input_rect = pygame.Rect(8 + (TILE_SIZE * 16.75), SQUARE_SIZE * 19, TILE_SIZE,
+                                                             TILE_SIZE)
                                     input_player_num = ''
                                     player = False
                                     while player is not True:
                                         input_player = font.render(str(input_player_num), True, BLACK)
-                                        self.win.blit(input_player, input_rect)
+                                        self.win.blit(place_holder, input_rect_box)
+                                        # self.win.blit(input_player, input_rect)
 
                                         for event in pygame.event.get():
                                             if event.type == pygame.KEYDOWN:
@@ -444,8 +475,7 @@ class Controller:
         font = pygame.font.Font('freesansbold.ttf', 16)
         discard_button = font.render("Discard Tiles", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
-        discard_button_rect = discard_button.get_rect(
-        center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 16.5))
+        discard_button_rect = discard_button.get_rect(center=(4 + (TILE_SIZE * 1.5), SQUARE_SIZE * 16.5))
         self.win.blit(discard_button, discard_button_rect)
 
         mpos = pygame.mouse.get_pos()
@@ -462,17 +492,17 @@ class Controller:
         font = pygame.font.Font('freesansbold.ttf', 18)
         discard_button = font.render("End Discard", True, BLACK)
         discard_button_rect = font.render("Discard", True, BLACK)
-        discard_button_rect = discard_button.get_rect(
-            center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75), SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
+        discard_button_rect = discard_button.get_rect(center=(BOARD_WIDTH + (SQUARE_SIZE * 1.75),
+                                                              SQUARE_SIZE * 18 + (TILE_SIZE * .5)))
         self.win.blit(discard_button, discard_button_rect)
-        self.remove_discard=True
+        self.remove_discard = True
         if event.type == pygame.MOUSEBUTTONDOWN:
             mpos = pygame.mouse.get_pos()
             if pygame.mouse.get_pressed()[0] and button_rect.collidepoint(mpos[0], mpos[1]):
-
                 self.discard_completed = True
                 self.clicked_discard = False
                 self.next_turn()
+                self.discarded_tile_indexes = []
             return False
 
     def show_popup(self, menu):
@@ -608,19 +638,23 @@ class Controller:
                 try:
                     if player_tiles[tile_index] and player_tiles[tile_index].is_tile():
                         if self.clicked_discard and not self.discard_completed:
-                            if self.discard_remaining != 0:
-                                self.discard_remaining -= 1
-                                self._temp_tile = tile_index
-                                self._tile_bag._tiles_in_bag.append(self._temp_tile)
-                                player_tiles[tile_index] = Tile()
-                                new_tile = self._tile_bag.get_tiles(1)[0]
-                                player_tiles[tile_index] = new_tile
-
-                            if self.discard_remaining == 0:
-                                self.next_turn()
+                            if tile_index not in self.discarded_tile_indexes:
+                                if self.discard_remaining != 0:
+                                    self.discard_remaining -= 1
+                                    self._temp_tile = tile_index
+                                    self._tile_bag._tiles_in_bag.append(self._temp_tile)
+                                    self.discarded_tile_indexes.append(tile_index)
+                                    player_tiles[tile_index] = Tile()
+                                    new_tile = self._tile_bag.get_tiles(1)[0]
+                                    player_tiles[tile_index] = new_tile
+                                if self.discard_remaining == 0:
+                                    self.next_turn()
+                            else:
+                                self.show_popup(self.discard_error_infoBox)
+                                self.menu_manager.display()
                         else:
                             self.tile_placement(player_tiles.pop(tile_index))
-                except:
+                finally:
                     self.update()
 
     def draw(self):
