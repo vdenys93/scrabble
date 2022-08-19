@@ -40,9 +40,9 @@ class Board:
             player_one = scoreboard_font.render(player.nickname_list[0] + ":  " + str(player.score_list[0]), True, BLACK, None)
             player_two = scoreboard_font.render(player.nickname_list[1]+":  "+ str(player.score_list[1]), True, BLACK, None)
             player_three = scoreboard_font.render(player.nickname_list[2] + ":  " + str(player.score_list[2]), True, BLACK, None)
-            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.15, SQUARE_SIZE))
+            player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3 * 0.5), SQUARE_SIZE))
             player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.5, SQUARE_SIZE))
-            player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH * 0.85, SQUARE_SIZE))
+            player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 3 * 2) + ((SCOREBOARD_WIDTH / 3 * 0.5)), SQUARE_SIZE))
             win.blit(player_three, player_three_rect)
         elif len(Player.nickname_list) == 4:
             scoreboard_font = pygame.font.Font('freesansbold.ttf', 24)
@@ -53,7 +53,7 @@ class Board:
             player_one_rect = player_one.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
             player_two_rect = player_two.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 4) + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
             player_three_rect = player_three.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH / 2) + (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
-            player_four_rect = player_four.get_rect(center=(SQUARE_SIZE + SCOREBOARD_WIDTH - (SCOREBOARD_WIDTH / 4) / 2, SQUARE_SIZE))
+            player_four_rect = player_four.get_rect(center=(SQUARE_SIZE + (SCOREBOARD_WIDTH - (SCOREBOARD_WIDTH / 4) / 2), SQUARE_SIZE))
             win.blit(player_three, player_three_rect)
             win.blit(player_four, player_four_rect)
         # Draw first two players
