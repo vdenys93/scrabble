@@ -85,39 +85,48 @@ class Controller:
             self._players.append(Player("Player 4", 4))
 
     def get_player_count(self, win, event):
-        scrabble_font = pygame.font.Font('freesansbold.ttf', 32)
+        scrabble_font = pygame.font.Font('freesansbold.ttf', 36)
         font = pygame.font.Font('freesansbold.ttf', 24)
-        # Text Display
+        dictionary_font = pygame.font.Font('freesansbold.ttf', 18)
+        # Opening Box and Text Display
+        welcome_rect = pygame.Rect(DISPLAY_WIDTH * 0.2, DISPLAY_HEIGHT * 0.25, DISPLAY_WIDTH * 0.6, DISPLAY_HEIGHT * 0.5)
+        pygame.draw.rect(self.win, TAN, welcome_rect)
+        pygame.draw.rect(self.win, GREY, welcome_rect, 2)
         welcome_text = scrabble_font.render('Welcome to Scrabble!', True, BLACK)
-        self.win.blit(welcome_text, (175, 75))
+        welcome_text_rect = welcome_text.get_rect(center = (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.25 + (SQUARE_SIZE * 2.5)))
+        self.win.blit(welcome_text, welcome_text_rect)
         how_many_players_text = font.render('Enter the Number of Players', True, BLACK)
-        self.win.blit(how_many_players_text, (175, 180))
+        home_many_players_text_rect = how_many_players_text.get_rect(center = (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.25 + (SQUARE_SIZE * 4.5)))
+        self.win.blit(how_many_players_text, home_many_players_text_rect)
+        dictionary_text = dictionary_font.render('*Have a dictionary on hand for word challenges*', True, BLACK)
+        dictionary_text_rect = dictionary_text.get_rect(center = (DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.25 + (SQUARE_SIZE * 8.5)))
+        self.win.blit(dictionary_text, dictionary_text_rect)
 
         # Two Person Selection Button
-        two_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 7, SQUARE_SIZE * 3, SQUARE_SIZE)
+        two_player_button = pygame.Rect(DISPLAY_WIDTH * 0.5 - (SQUARE_SIZE * 5.5), DISPLAY_HEIGHT * 0.25  + (SQUARE_SIZE * 6), SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, two_player_button)
         pygame.draw.rect(self.win, BLACK, two_player_button, 1)
         two_player_text = font.render('2', True, BLACK)
         two_text_rect = two_player_text.get_rect(
-            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 7 + (TILE_SIZE * .5)))
+            center=(BOARD_WIDTH / 2 - (SQUARE_SIZE * 1.5), DISPLAY_HEIGHT * 0.25 + (SQUARE_SIZE * 6.5)))
         self.win.blit(two_player_text, two_text_rect)
 
         # Three Person Selection Button
-        three_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 11, SQUARE_SIZE * 3, SQUARE_SIZE)
+        three_player_button = pygame.Rect(DISPLAY_WIDTH * 0.5 - (SQUARE_SIZE * 1.5), DISPLAY_HEIGHT * 0.25  + (SQUARE_SIZE * 6), SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, three_player_button)
         pygame.draw.rect(self.win, BLACK, three_player_button, 1)
         three_player_text = font.render('3', True, BLACK)
         three_text_rect = three_player_text.get_rect(
-            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 11 + (TILE_SIZE * .5)))
+            center=(DISPLAY_WIDTH * 0.5, DISPLAY_HEIGHT * 0.25  + (SQUARE_SIZE * 6.5)))
         self.win.blit(three_player_text, three_text_rect)
 
         # Four Person Selection Button
-        four_player_button = pygame.Rect(BOARD_WIDTH // 2, SQUARE_SIZE * 15, SQUARE_SIZE * 3, SQUARE_SIZE)
+        four_player_button = pygame.Rect(DISPLAY_WIDTH * 0.5 + (SQUARE_SIZE * 2.5), DISPLAY_HEIGHT * 0.25  + (SQUARE_SIZE * 6), SQUARE_SIZE * 3, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, four_player_button)
         pygame.draw.rect(self.win, BLACK, four_player_button, 1)
         four_player_text = font.render('4', True, BLACK)
         four_text_rect = four_player_text.get_rect(
-            center=(BOARD_WIDTH // 2 + (SQUARE_SIZE * 1.5), SQUARE_SIZE * 15 + (TILE_SIZE * .5)))
+            center=(DISPLAY_WIDTH * 0.5 + (SQUARE_SIZE * 4), DISPLAY_HEIGHT * 0.25  + (SQUARE_SIZE * 6.5)))
         self.win.blit(four_player_text, four_text_rect)
 
         # Create Players based on button selected

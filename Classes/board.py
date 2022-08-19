@@ -62,7 +62,7 @@ class Board:
 
     def draw_tile_holder(self, win, player: Player):
         pygame.draw.rect(win, TAN, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y))
-
+        pygame.draw.rect(win, GREY, (TILE_HOLDER_OFFSET_X, TILE_HOLDER_OFFSET_Y, HOLDER_SIZE_X, HOLDER_SIZE_Y), 1)
         if player is not None and len(player.tile_array) > 0:
             for idx, tile in enumerate(player.tile_array):
                 try:
