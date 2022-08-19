@@ -248,6 +248,7 @@ class Controller:
         self.clicked_discard = False
         self.discard_completed = False
         self.remove_discard = False
+        self.discarded_tile_indexes = []
 
         pygame.display.flip()
 
@@ -502,7 +503,7 @@ class Controller:
                 self.discard_completed = True
                 self.clicked_discard = False
                 self.next_turn()
-                self.discarded_tile_indexes = []
+
             return False
 
     def show_popup(self, menu):
@@ -640,13 +641,13 @@ class Controller:
                         if self.clicked_discard and not self.discard_completed:
                             if tile_index not in self.discarded_tile_indexes:
                                 if self.discard_remaining != 0:
+                                    new_tile=self._tile_bag.get_tiles(1)[0]
                                     self.discard_remaining -= 1
-                                    self._temp_tile = tile_index
-                                    self._tile_bag._tiles_in_bag.append(self._temp_tile)
+                                    self._temp_discard_tile = player_tiles[tile_index]
+                                    self._tile_bag._tiles_in_bag.append(self._temp_discard_tile)
                                     self.discarded_tile_indexes.append(tile_index)
-                                    player_tiles[tile_index] = Tile()
-                                    new_tile = self._tile_bag.get_tiles(1)[0]
                                     player_tiles[tile_index] = new_tile
+
                                 if self.discard_remaining == 0:
                                     self.next_turn()
                             else:

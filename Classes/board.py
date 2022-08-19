@@ -2,9 +2,13 @@ import pygame
 from .constants import *
 from .player import Player
 from .tile import Tile
+import sys
+
+
 
 
 class Board:
+
     def __init__(self):
 
         self._board = [[Tile() for x in range(15)] for _ in range(15)]
