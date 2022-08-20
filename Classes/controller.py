@@ -29,6 +29,10 @@ class Controller:
         self.discarded_tile_indexes = []
         self.menu_manager = MenuManager(win)
         self.discard_remaining = MAX_TILES_PLAYABLE
+        self.game_sound = pygame.mixer.Sound("game_music.mp3")
+        self.game_volume = 0.02
+        pygame.mixer.Sound.set_volume(self.game_sound, max(0,self.game_volume))
+
         self.reset_word_infoBox = InfoBox("Resetting Tiles", [
             [TextElement(text=f"Return the tiles to your tile board before submitting them.",
                          text_color=LT_CYAN)
@@ -59,7 +63,6 @@ class Controller:
              ]], element_linked=pygame.Rect(400, 900 // 2, 1, 1),
                                        has_close_button=False, width=250,
                                        identifier="Discard Error Text Box", title_color=LT_CYAN)
-
 
 
     def place_tile(self, xy: tuple):
@@ -146,6 +149,7 @@ class Controller:
                 self.player_selection_is_complete = True
 
     def pass_out_tiles(self):
+
         random.shuffle(self._tile_bag._tiles_in_bag)
         for player in self._players:
             if len(player.tile_array) == 0:
@@ -248,6 +252,8 @@ class Controller:
         return
 
     def next_turn(self):
+        pygame.mixer.stop()
+        pygame.mixer.Sound.play(self.game_sound, -1)
         self._placed_tiles = []
         self.pass_out_tiles()
         if self.current_players_turn == len(self._players) - 1:
@@ -261,8 +267,6 @@ class Controller:
         self.discard_completed = False
         self.remove_discard = False
         self.discarded_tile_indexes = []
-        pygame.mixer.pause()
-
         pygame.display.flip()
 
     # Player turn display
@@ -408,6 +412,7 @@ class Controller:
                                                             input_player_num) - 1 in range(
                                                         len(self._players)):
                                                         self._players[(int(input_player_num) - 1)].skip_next_turn = True
+
                                                         end_time = time.time() + 4
                                                         while time.time() < end_time:
                                                             self.draw()
@@ -581,6 +586,8 @@ class Controller:
 
     def submit_word(self, event) -> bool:
         # Draw Submit word button
+
+
         button_rect = pygame.Rect(SQUARE_SIZE, SQUARE_SIZE * 18, SQUARE_SIZE * 5, SQUARE_SIZE)
         pygame.draw.rect(self.win, GREY, button_rect)
         pygame.draw.rect(self.win, BLACK, button_rect, 1)
@@ -683,8 +690,10 @@ class Controller:
 
         turn = True
         if self._players[self.current_players_turn].skip_next_turn is True:
+
             turn = False
             self._players[self.current_players_turn].skip_next_turn = False
+
 
         while turn:
             pygame.event.post(pygame.event.Event(pygame.USEREVENT + 1))
@@ -692,6 +701,7 @@ class Controller:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
                 self.tile_holder_clicks(event)
                 self.draw()
                 self.shuffle_tiles_button(event)
@@ -705,11 +715,14 @@ class Controller:
 
                 turn = self.submit_word(event)
 
+
                 if turn is not False and self.clicked_discard:
                     self.end_discard(event)
                 if turn is not False:
                     turn = self.pass_button(event)
 
                 pygame.display.flip()
+
         turn = True
         self.next_turn()
+

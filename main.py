@@ -23,19 +23,12 @@ def main():
     game_controller = Controller(win)
     pygame.mixer.music.load("start_menu_music.mp3")
     game_sound=pygame.mixer.Sound("game_music.mp3")
-    pygame.mixer.music.set_volume(0.4)
-    game_volume =  0.3
+    pygame.mixer.music.set_volume(0.02)
+    game_volume =  0.02
     pygame.mixer.Sound.set_volume(game_sound, max(0,game_volume))
     pygame.mixer.music.play(-1)
 
-
-
-
-
-
     while run:
-
-
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
