@@ -261,6 +261,7 @@ class Controller:
         self.discard_completed = False
         self.remove_discard = False
         self.discarded_tile_indexes = []
+        pygame.mixer.pause()
 
         pygame.display.flip()
 
