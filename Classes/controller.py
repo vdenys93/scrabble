@@ -60,6 +60,8 @@ class Controller:
                                        has_close_button=False, width=250,
                                        identifier="Discard Error Text Box", title_color=LT_CYAN)
 
+
+
     def place_tile(self, xy: tuple):
         self._placed_tiles.append(xy)
 
@@ -85,6 +87,7 @@ class Controller:
             self._players.append(Player("Player 4", 4))
 
     def get_player_count(self, win, event):
+
         scrabble_font = pygame.font.Font('freesansbold.ttf', 36)
         font = pygame.font.Font('freesansbold.ttf', 24)
         dictionary_font = pygame.font.Font('freesansbold.ttf', 18)

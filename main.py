@@ -14,13 +14,28 @@ def get_row_col_from_mouse(pos):
     return row, col
 
 
+
 def main():
+
     run = True
     clock = pygame.time.Clock()
     win.fill(GREEN)
     game_controller = Controller(win)
+    pygame.mixer.music.load("start_menu_music.mp3")
+    game_sound=pygame.mixer.Sound("game_music.mp3")
+    pygame.mixer.music.set_volume(0.4)
+    game_volume =  0.3
+    pygame.mixer.Sound.set_volume(game_sound, max(0,game_volume))
+    pygame.mixer.music.play(-1)
+
+
+
+
+
 
     while run:
+
+
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -33,7 +48,11 @@ def main():
         game_controller.get_player_count(win, event)
         player_selection_completed = game_controller.player_selection_is_complete
         game_controller.start(win)
+
+
         while player_selection_completed:
+            pygame.mixer.music.stop()
+            pygame.mixer.Sound.play(game_sound,-1)
             game_controller.update()
 
         # Make the most recently drawn screen visible
@@ -50,3 +69,4 @@ if __name__ == '__main__':
     pygame.init()
     pygamepopup.init()
     main()
+
