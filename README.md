@@ -1,10 +1,9 @@
-Added by Alan - 3 August 2022
+3 August 2022
 
 	Continued PEP 8 organization and structuring.
 	
 	Added tile tray refil feature and increased functionality
-
-Added by Alan - 21 Jul 2022
+ 21 Jul 2022
 
    Changed background color to distinguish the board from the background display
    Added Text to the base board tiles.  
@@ -12,7 +11,7 @@ Added by Alan - 21 Jul 2022
    NOTE:  ST is temporarily changed with a manual example of the code for a Letter placement (E)
 
 
-Added by Alan - 20 Jul 2022
+ 20 Jul 2022
 
    Added Game Class for game mechanics
    Began game mechanic for mouse tile movement
@@ -36,7 +35,7 @@ Added by Alan - 20 Jul 2022
    Added move()
 
 
-Added by Alan - 19 July 2022:
+ 19 July 2022:
 
    Created/ Modified Files:
    
@@ -59,4 +58,5 @@ Coordinate system on board is tested and working.  Board[row][col]
 
 Currently, adjustments are still made through the constants.py file
 
+Project made by Jason Trainer, James Rodgers, Denis Bowen, Alan Snyder and Viktoriia Denys
 
